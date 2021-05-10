@@ -13,7 +13,7 @@ function multiplyNumeric(obj) {
       obj[key] *= 2;
     }
   }
+  return obj;
 }
 
-multiplyNumeric(image);
-console.log(image);
+console.log( multiplyNumeric(image) );
