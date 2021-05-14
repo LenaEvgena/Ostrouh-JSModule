@@ -15,10 +15,8 @@ function startCalc() {
   for (var num of arr) {
     sum += num;
   }
-  alert(sum);
 
-  // console.log(sum);
-  // console.log(arr);
+  alert('Сумма чисел равна ' + sum);
 }
 
 startCalc();
