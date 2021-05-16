@@ -4,7 +4,7 @@ var classObj = {
   className: 'menu open open my',
 };
 
-function removeExistingClass (obj, cls) {
+function removeExistingClass(obj, cls) {
   var classArray = obj.className.split(' ');
   var result = [];
   for (var i = 0; i < classArray.length; i++) {
