@@ -44,11 +44,11 @@ johnObj.calcTips();
 markObj.calcTips();
 
 function averageTip(arr) {
-  var sum = 0;
-  for (var tip of arr) {
-    var average = (sum += tip)/ arr.length;
-  }
-  return +average.toFixed(2);
+	var sum = 0;
+	for (var tip of arr) {
+		sum += tip;
+	}
+	return +(sum/arr.length).toFixed(2);
 }
 
 if (averageTip(johnObj.tips) > averageTip(markObj.tips)) {
