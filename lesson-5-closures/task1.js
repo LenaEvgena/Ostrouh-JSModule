@@ -1,3 +1,5 @@
+'use strict';
+
 var johnObj = {
   bills: [124, 48, 268, 180, 42],
   tips:[],
@@ -5,6 +7,7 @@ var johnObj = {
   calcTips: function () {
     for (var i = 0; i < this.bills.length; i++) {
       var bill = this.bills[i];
+			var percent = null;
       if (bill < 50) {
         percent = 0.2;
       } else if (bill >= 50 && bill <= 200) {
@@ -26,6 +29,7 @@ var markObj = {
   calcTips: function () {
     for (var i = 0; i < this.bills.length; i++) {
       var bill = this.bills[i];
+			var percent = null;
       if (bill < 100) {
         percent = 0.2;
       } else if (bill >= 100 && bill <= 300) {
