@@ -2,10 +2,10 @@
 
 function sum(a) {
   return function(b) {
-    console.log(a + b);
+    return a + b;
   }
 }
 
-sum(1)(2);
-sum(5)(-1);
+console.log( sum(1)(2) );
+console.log( sum(5)(-1) );
 
