@@ -4,18 +4,18 @@
   function Question(question, answer1, answer2, answer3, numOfCorrectAnswer) {
   this.question = question;
   this.answers = [answer1, answer2, answer3];
-  this.indexOfCorrectAnswer = numOfCorrectAnswer - 1;
+  this.numOfCorrectAnswer = numOfCorrectAnswer;
   }
 
   Question.prototype.showQuestion = function () {
     console.log(this.question);
     for (var i = 0; i < this.answers.length; i++) {
-      console.log((i + 1) +'. ' + this.answers[i]);
+      console.log((i + 1) + '. ' + this.answers[i]);
     }
   }
 
-  Question.prototype.isCorrectAnswer = function(i) {
-    if ((i - 1) == this.indexOfCorrectAnswer) {
+  Question.prototype.isCorrectAnswer = function(num) {
+    if ((num) == this.numOfCorrectAnswer) {
       console.log('It\'s a correct answer!');
     } else {
       console.log('Your answer is wrong!');
@@ -41,6 +41,7 @@
     }
     return userAnswer;
   }
+
   getUserAnswer();
 
   questionsArray[index].isCorrectAnswer(userAnswer);
