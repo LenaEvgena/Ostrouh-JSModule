@@ -7,12 +7,16 @@
   this.numOfCorrectAnswer = numOfCorrectAnswer;
   }
 
-  Object.prototype.chooseRandomQuestion = function() {
-    var index = Math.floor(Math.random() * 3);
-    console.log(this[index].question);
-    for (var i = 0; i < this[index].answers.length; i++) {
-      console.log((i + 1) + '. ' + this[index].answers[i]);
+	Question.prototype.showQuestion = function() {
+    console.log(this.question);
+    for (var i = 0; i < this.answers.length; i++) {
+      console.log((i + 1) + '. ' + this.answers[i]);
     }
+  }
+
+  Question.prototype.chooseRandomQuestion = function() {
+    var index = Math.floor(Math.random() * 3);
+    this[index].showQuestion();
     return this[index];
   }
 
