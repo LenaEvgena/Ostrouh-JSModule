@@ -7,7 +7,7 @@
   this.numOfCorrectAnswer = numOfCorrectAnswer;
   }
 
-	Question.prototype.showQuestion = function() {
+  Question.prototype.showQuestion = function() {
     console.log(this.question);
     for (var i = 0; i < this.answers.length; i++) {
       console.log((i + 1) + '. ' + this.answers[i]);
