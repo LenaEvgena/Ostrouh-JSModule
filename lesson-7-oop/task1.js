@@ -2,9 +2,9 @@
 
 (function () {
   function Question(question, answer1, answer2, answer3, numOfCorrectAnswer) {
-  this.question = question;
-  this.answers = [answer1, answer2, answer3];
-  this.numOfCorrectAnswer = numOfCorrectAnswer;
+    this.question = question;
+    this.answers = [answer1, answer2, answer3];
+    this.numOfCorrectAnswer = numOfCorrectAnswer;
   }
 
   Question.prototype.showQuestion = function() {
