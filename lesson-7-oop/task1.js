@@ -7,11 +7,13 @@
   this.numOfCorrectAnswer = numOfCorrectAnswer;
   }
 
-  Question.prototype.showQuestion = function () {
-    console.log(this.question);
-    for (var i = 0; i < this.answers.length; i++) {
-      console.log((i + 1) + '. ' + this.answers[i]);
+  Object.prototype.chooseRandomQuestion = function() {
+    var index = Math.floor(Math.random() * 3);
+    console.log(this[index].question);
+    for (var i = 0; i < this[index].answers.length; i++) {
+      console.log((i + 1) + '. ' + this[index].answers[i]);
     }
+    return this[index];
   }
 
   Question.prototype.isCorrectAnswer = function(num) {
@@ -22,11 +24,6 @@
     }
   }
 
-  Object.prototype.chooseRandomQuestion = function() {
-    this[index].showQuestion();
-    return this[index];
-  }
-
   var quest1 = new Question('What is Expression in programming?', 'It is a unit of code that results in a value', 'It is emotion',
     'I don\'t know', 1);
   var quest2 = new Question('What is Coersion in programming?', 'I don\'t know', 'It is a process of converting a value from one type to another',
@@ -35,7 +32,6 @@
     'I don\'t know', 2);
 
   var questionsArray = new Array(quest1, quest2, quest3);
-  var index = Math.floor(Math.random() * 3);
   var userAnswer = '';
 
   function getUserAnswer() {
