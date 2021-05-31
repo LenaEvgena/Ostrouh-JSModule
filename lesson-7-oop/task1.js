@@ -24,6 +24,7 @@
 
   Object.prototype.chooseRandomQuestion = function() {
     this[index].showQuestion();
+    return this[index];
   }
 
   var quest1 = new Question('What is Expression in programming?', 'It is a unit of code that results in a value', 'It is emotion',
@@ -44,7 +45,5 @@
     return userAnswer;
   }
 
-  questionsArray.chooseRandomQuestion();
-  getUserAnswer();
-  questionsArray[index].isCorrectAnswer(userAnswer);
+  questionsArray.chooseRandomQuestion().isCorrectAnswer( getUserAnswer() );
 })();
