@@ -15,11 +15,15 @@
   }
 
   Question.prototype.isCorrectAnswer = function(num) {
-    if ((num) == this.numOfCorrectAnswer) {
+    if (num === this.numOfCorrectAnswer) {
       console.log('It\'s a correct answer!');
     } else {
       console.log('Your answer is wrong!');
     }
+  }
+
+  Object.prototype.chooseRandomQuestion = function() {
+    this[index].showQuestion();
   }
 
   var quest1 = new Question('What is Expression in programming?', 'It is a unit of code that results in a value', 'It is emotion',
@@ -31,10 +35,8 @@
 
   var questionsArray = new Array(quest1, quest2, quest3);
   var index = Math.floor(Math.random() * 3);
-
-  questionsArray[index].showQuestion();
-
   var userAnswer = '';
+
   function getUserAnswer() {
     while (userAnswer == '' || userAnswer == null || isNaN(userAnswer)) {
       userAnswer = +prompt('Choose the right answer!');
@@ -42,7 +44,7 @@
     return userAnswer;
   }
 
+  questionsArray.chooseRandomQuestion();
   getUserAnswer();
-
   questionsArray[index].isCorrectAnswer(userAnswer);
 })();
