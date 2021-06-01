@@ -19,11 +19,11 @@
     var currentScore;
     if (ans === this.correct) {
       console.log('Correct answer!');
-      console.log('You\'ve got 1 point for your answer!');
+      console.log('You\'ve got 1 point for the answer!');
       currentScore = fn(true);
     } else {
       console.log('Wrong answer. Try again :)');
-      console.log('You\'ve got 0 point for your answer!');
+      console.log('You\'ve got 0 point for the answer!');
       currentScore = fn(false);
     }
     this.logScore();
@@ -68,6 +68,9 @@
     if (answer !== 'exit' && answer !== null) {
       questions[n].checkAnswer( parseInt(answer), curScore );
       showNextQuestion();
+    } else {
+      console.log('Your final score is: ' + curScore());
+      console.log('*****THE*END*****');
     }
   }
 
