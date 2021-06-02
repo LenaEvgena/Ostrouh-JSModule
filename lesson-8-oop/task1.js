@@ -36,8 +36,8 @@
     var score = 0;
     return function(isTrue){
       if (isTrue) {
-      score++;
-    }
+        score++;
+      }
     return score;
     }
   }
