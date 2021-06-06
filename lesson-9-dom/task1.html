@@ -5,8 +5,86 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <script src="task1.js"></script>
+  <style>
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+    .btn {
+      height: 70px;
+      margin: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      border: 3px solid;
+      cursor: pointer;
+    }
+    .info {
+      width: 350px;
+      height: 100px;
+      margin: 0 auto;
+      margin-top: 30px;
+      font-size: 16px;
+      font-weight: bold;
+      border: 3px solid;
+      padding: 10px;
+    }
+  </style>
+
 </head>
 <body>
+  <div class="container">
+    <button id="addV" class="btn">Ввод информации о напитке</button>
+    <button id="getV" class="btn">Получение информации о напитке</button>
+    <button id="delV" class="btn">Удаление информации о напитке</button>
+    <button id="getK" class="btn">Перечень всех напитков</button>
+    <div class="info"></div>
+  </div>
+
+
+  <script>
+    'use strict';
+
+    var drinkStorage = new HashStorage();
+
+    var addButton = document.getElementById('addV');
+    var getButton = document.getElementById('getV');
+    var deleteButton = document.getElementById('delV');
+    var keysButton = document.getElementById('getK');
+    var info = document.querySelector('.info');
+
+
+    addButton.addEventListener('click', function() {
+      var drinkName = prompt("Введите название напитка");
+
+      if (drinkName !== null) {
+        var isAlcohol = (confirm("Напиток алкогольный?")) ? 'алкогольный' : 'безалкогольный';
+        var drinkRecipe = prompt("Рецепт...");
+        drinkStorage.addValue(drinkName, {drinkName, alcohol: isAlcohol, recipe: drinkRecipe,});
+        info.textContent = 'Напиток ' + drinkName + ' сохранен в базе!';
+      }
+    })
+
+    getButton.addEventListener('click', function() {
+      var drinkName = prompt("Введите название напитка");
+      var drink = drinkStorage.getValue(drinkName);
+      info.textContent = 'Напиток ' + drinkName + ': ' + drink.alcohol + ', рецепт: ' + drink.recipe;
+    })
+
+    deleteButton.addEventListener('click', function() {
+      var drinkName = prompt("Введите название напитка");
+      drinkStorage.deleteValue(drinkName);
+      info.textContent = 'Напиток ' + drinkName + ' удален!';
+    })
+
+    keysButton.addEventListener('click', function() {
+      info.textContent = 'В базе сохранены следующие напитки: ' + drinkStorage.getKeys();
+    })
+
+  </script>
 
 </body>
 </html>
