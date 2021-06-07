@@ -1,7 +1,7 @@
 'use strict';
 
 function HashStorage() {
-  this.storage = {};// приватный хэш для значений
+  this.storage = {};// хранилище для значений
 }
 
 HashStorage.prototype.addValue = function(key, value) {
