@@ -1,16 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
-  <form name="form1"></form>
-  <script>
-    'use strict';
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<form></form>
 
-  </script>
-</body>
+		<script>
+			"use strict";
+
+			var form = document.querySelector("form");
+			form.setAttribute("name", "form1");
+			form.setAttribute("method", "post");
+			form.setAttribute("action", "http://fe.it;-academy.by/TestForm.php");
+
+      var formArr =
+      [
+        {label: 'Легенда:', type: 'legend', value: 'Для внесения вашего сайта в каталог, заполните форму:'},
+        {label: 'Разработчики:', type: 'text', name: 'author', style: 'width: 453px'},
+        {label: 'Название сайта:', type: 'text', name: 'title', style: 'width: 450px'},
+        {label: 'URL сайта:', type: 'text', name: 'titleURL', style: 'width: 300px'},
+        {label: 'Дата запуска сайта:', type: 'text', name: 'startdate', style: 'width: 80px'},
+        {label: 'Посетителей в сутки:', type: 'text', name: 'persons', style: 'width: 80px'},
+        {label: 'E-mail для связи:', type: 'text', name: 'email', style: 'width: 200px'},
+
+        {label: 'Рубрика каталога:', type: 'select', name: 'lists',
+          variants: [{text: 'здоровье', value: 1}, {text: 'домашний уют', value: 2}, {text: 'бытовая техника', value: 3}]},
+
+        {label: 'Размещение:', type: 'radio', name: 'public',
+          variants: [{text: 'бесплатное', value: 1}, {text: 'платное', value: 2}, {text: 'VIP', value: 3}]},
+
+        {label: 'Разрешить отзывы:', type: 'checkbox', name: 'comments', status: 'checked'},
+        {label: 'Описание сайта:', type: 'textarea', name: 'article', style: ['width: 500px', 'height: 150px']},
+        {label: 'Кнопка', type: 'submit', value: 'Опубликовать'},
+      ];
+
+      function drawForm(formName, arr, tag) {
+        for (var i = 0; i < arr.length; i++) {
+          if (arr[i].type === 'legend') {
+            var fieldSet = document.createElement('fieldset');
+            fieldSet.style.border = 'none';
+            fieldSet.style.width = '600px';
+
+            var legend = document.createElement('legend');
+            legend.appendChild(document.createTextNode('Для внесения вашего сайта в каталог, заполните форму:'));
+            fieldSet.appendChild(legend);
+          }
+
+          if  (arr[i].type === 'text') {
+            var input = document.createElement('input');
+            input.type = arr[i].type;
+            input.name = arr[i].name;
+            input.style = arr[i].style;
+            var label = document.createElement('label');
+            label.appendChild(document.createTextNode(arr[i].label));
+            label.appendChild(input);
+            fieldSet.appendChild(label);
+          }
+          if (arr[i].type === 'textarea') {
+            var textarea = document.createElement('textarea');
+            textarea.name = arr[i].name;
+            textarea.setAttribute("style", arr[i].style[0] + "; " + arr[i].style[1]);
+            fieldSet.appendChild(textarea);
+          }
+
+          if (arr[i].type === 'submit') {
+            var button = document.createElement('input');
+            button.type = arr[i].type;
+            button.value = arr[i].value;
+            fieldSet.appendChild(button);
+          }
+        }
+
+        form.appendChild(fieldSet);
+        return form;
+      }
+
+
+      drawForm(form, formArr, form);
+		</script>
+	</body>
 </html>
