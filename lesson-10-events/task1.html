@@ -26,25 +26,19 @@
         {label: 'Дата запуска сайта:', type: 'text', name: 'startdate', style: 'width: 80px'},
         {label: 'Посетителей в сутки:', type: 'text', name: 'persons', style: 'width: 80px'},
         {label: 'E-mail для связи:', type: 'text', name: 'email', style: 'width: 200px'},
-
-        {label: 'Рубрика каталога:', type: 'select', name: 'lists',
-          variants: [{text: 'здоровье', value: 1}, {text: 'домашний уют', value: 2}, {text: 'бытовая техника', value: 3}]},
-
-        {label: 'Размещение:', type: 'radio', name: 'public',
-          variants: [{text: 'бесплатное', value: 1}, {text: 'платное', value: 2}, {text: 'VIP', value: 3}]},
-
+        {label: 'Рубрика каталога:', type: 'select', name: 'list', variants: [{text: 'здоровье', value: 1}, {text: 'домашний уют', value: 2}, {text: 'бытовая техника', value: 3}]},
+        {label: 'Размещение:', type: 'radio', name: 'public', variants: [{text: 'бесплатное', value: 1}, {text: 'платное', value: 2}, {text: 'VIP', value: 3}]},
         {label: 'Разрешить отзывы:', type: 'checkbox', name: 'comments', status: 'checked'},
         {label: 'Описание сайта:', type: 'textarea', name: 'article', style: ['width: 500px', 'height: 150px']},
         {label: 'Кнопка', type: 'submit', value: 'Опубликовать'},
       ];
 
-      function drawForm(formName, arr, tag) {
+      function drawForm(form, arr, tag) {
         for (var i = 0; i < arr.length; i++) {
           if (arr[i].type === 'legend') {
             var fieldSet = document.createElement('fieldset');
             fieldSet.style.border = 'none';
             fieldSet.style.width = '600px';
-
             var legend = document.createElement('legend');
             legend.appendChild(document.createTextNode('Для внесения вашего сайта в каталог, заполните форму:'));
             fieldSet.appendChild(legend);
@@ -58,13 +52,66 @@
             var label = document.createElement('label');
             label.appendChild(document.createTextNode(arr[i].label));
             label.appendChild(input);
+            label.appendChild(document.createElement('br'));
             fieldSet.appendChild(label);
           }
+
+          if (arr[i].type === 'select') {
+            var list = document.createElement('select');
+            list.name = arr[i].name;
+            var label = document.createElement('label');
+            label.appendChild(document.createTextNode(arr[i].label));
+
+            for (var j = 0; j < arr[i].variants.length; j++) {
+              var option = document.createElement('option');
+              option.value = arr[i].variants[j].value;
+              option.appendChild(document.createTextNode(arr[i].variants[j].text));
+              list.appendChild(option);
+              label.appendChild(list);
+            }
+            label.appendChild(document.createElement('br'));
+            fieldSet.appendChild(label);
+          }
+
+          if (arr[i].type === 'radio') {
+            var label = document.createElement('label');
+            label.appendChild(document.createTextNode(arr[i].label));
+
+            for (var j = 0; j < arr[i].variants.length; j++) {
+              var radio = document.createElement('input');
+              radio.type = arr[i].type;
+              radio.name = arr[i].name;
+              radio.value = arr[i].variants[j].value;
+              var span = document.createElement('span');
+              span.appendChild(document.createTextNode(arr[i].variants[j].text));
+              label.appendChild(radio);
+              label.appendChild(span);
+            }
+            label.appendChild(document.createElement('br'));
+            fieldSet.appendChild(label);
+          }
+
+          if (arr[i].type === 'checkbox') {
+            var check = document.createElement('input');
+            check.type = arr[i].type;
+            check.name = arr[i].name;
+            check.setAttribute("checked", true);
+            var label = document.createElement('label');
+            label.appendChild(document.createTextNode(arr[i].label));
+            label.appendChild(check);
+            label.appendChild(document.createElement('br'));
+            fieldSet.appendChild(label);
+          }
+
           if (arr[i].type === 'textarea') {
             var textarea = document.createElement('textarea');
             textarea.name = arr[i].name;
             textarea.setAttribute("style", arr[i].style[0] + "; " + arr[i].style[1]);
-            fieldSet.appendChild(textarea);
+            var label = document.createElement('label');
+            label.appendChild(document.createTextNode(arr[i].label));
+            label.appendChild(textarea);
+            label.appendChild(document.createElement('br'));
+            fieldSet.appendChild(label);
           }
 
           if (arr[i].type === 'submit') {
@@ -74,11 +121,9 @@
             fieldSet.appendChild(button);
           }
         }
-
-        form.appendChild(fieldSet);
-        return form;
+        tag.appendChild(fieldSet);
+        return tag;
       }
-
 
       drawForm(form, formArr, form);
 		</script>
