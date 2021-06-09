@@ -33,24 +33,7 @@
         {label: 'Кнопка', type: 'submit', value: 'Опубликовать'},
       ];
 
-
-      // function setAttributes(arr, tag) {
-      //   for (var i = 0; i < arr.length; i++) {
-      //     var elem = document.createElement(tag);
-      //     var keys = Object.keys(arr[i]);
-      //     var values = Object.values(arr[i]);
-
-      //     for (var j = 0; j < keys.length; j++) {
-      //       if (keys[j] !== 'label') {
-      //         var attribute = keys[j];
-      //         elem[attribute] = values[j];
-      //       }
-      //     }
-      //   }
-      //   return elem;
-      // }
       function setAttributes(elem, obj) {
-        var keys = Object.keys(obj);
         for (var key in obj) {
           elem.type = obj.type;
           elem.name = obj.name;
@@ -58,6 +41,12 @@
           elem.required = obj.required;
         }
         return elem;
+      }
+
+      function createLabel(obj) {
+        var label = document.createElement('label');
+        label.appendChild(document.createTextNode(obj.label));
+        return label;
       }
 
       function drawForm(form, arr) {
@@ -72,18 +61,8 @@
 
           if (arr[i].type === 'text') {
             var input = document.createElement('input');
-            // var input = document.createElement('input');
-            // input.type = arr[i].type;
-            // input.name = arr[i].name;
-            // input.style = arr[i].style;
-            // input.required = arr[i].required;
-            // var label = document.createElement('label');
-            // label.appendChild(document.createTextNode(arr[i].label));
-            // label.appendChild(input);
-            // label.appendChild(document.createElement('br'));
             var label = document.createElement('label');
             label.appendChild(document.createTextNode(arr[i].label));
-            // label.appendChild(input);
             label.appendChild(setAttributes(input, arr[i]));
             label.appendChild(document.createElement('br'));
             fieldSet.appendChild(label);
