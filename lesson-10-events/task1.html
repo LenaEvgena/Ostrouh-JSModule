@@ -19,19 +19,46 @@
 
       var formArr =
       [
-        {label: 'Легенда:', type: 'legend', value: 'Для внесения вашего сайта в каталог, заполните форму:',  style: ['border: none']},
-        {label: 'Разработчики:', type: 'text', name: 'author', style: 'width: 400px'},
-        {label: 'Название сайта:', type: 'text', name: 'title', style: 'width: 388px'},
-        {label: 'URL сайта:', type: 'text', name: 'titleURL', style: 'width: 300px'},
-        {label: 'Дата запуска сайта:', type: 'text', name: 'startdate', style: 'width: 80px'},
-        {label: 'Посетителей в сутки:', type: 'text', name: 'persons', style: 'width: 80px'},
-        {label: 'E-mail для связи:', type: 'text', name: 'email', style: 'width: 200px'},
+        {label: 'Легенда:', type: 'legend', value: 'Для внесения вашего сайта в каталог, заполните форму:', style: ['border: none']},
+        {label: 'Разработчики:', type: 'text', name: 'author', style: 'width: 400px', required: true},
+        {label: 'Название сайта:', type: 'text', name: 'title', style: 'width: 388px', required: true},
+        {label: 'URL сайта:', type: 'text', name: 'titleURL', style: 'width: 300px', required: true},
+        {label: 'Дата запуска сайта:', type: 'text', name: 'startdate', style: 'width: 80px', required: true},
+        {label: 'Посетителей в сутки:', type: 'text', name: 'persons', style: 'width: 80px', required: true},
+        {label: 'E-mail для связи:', type: 'text', name: 'email', style: 'width: 200px', required: true},
         {label: 'Рубрика каталога:', type: 'select', name: 'list', variants: [{text: 'здоровье', value: 1, selected: false}, {text: 'домашний уют', value: 2, selected: false}, {text: 'бытовая техника', value: 3, selected: true}]},
-        {label: 'Размещение:', type: 'radio', name: 'public', variants: [{text: 'бесплатное', value: 1}, {text: 'платное', value: 2}, {text: 'VIP', value: 3}]},
+        {label: 'Размещение:', type: 'radio', name: 'public', variants: [{text: 'бесплатное', value: 1}, {text: 'платное', value: 2}, {text: 'VIP', value: 3}], required: true},
         {label: 'Разрешить отзывы:', type: 'checkbox', name: 'comments', checked: true},
         {label: 'Описание сайта:', type: 'textarea', name: 'article', style: ['width: 500px', 'height: 150px']},
         {label: 'Кнопка', type: 'submit', value: 'Опубликовать'},
       ];
+
+
+      // function setAttributes(arr, tag) {
+      //   for (var i = 0; i < arr.length; i++) {
+      //     var elem = document.createElement(tag);
+      //     var keys = Object.keys(arr[i]);
+      //     var values = Object.values(arr[i]);
+
+      //     for (var j = 0; j < keys.length; j++) {
+      //       if (keys[j] !== 'label') {
+      //         var attribute = keys[j];
+      //         elem[attribute] = values[j];
+      //       }
+      //     }
+      //   }
+      //   return elem;
+      // }
+      function setAttributes(elem, obj) {
+        var keys = Object.keys(obj);
+        for (var key in obj) {
+          elem.type = obj.type;
+          elem.name = obj.name;
+          elem.style = obj.style;
+          elem.required = obj.required;
+        }
+        return elem;
+      }
 
       function drawForm(form, arr) {
         for (var i = 0; i < arr.length; i++) {
@@ -45,12 +72,19 @@
 
           if (arr[i].type === 'text') {
             var input = document.createElement('input');
-            input.type = arr[i].type;
-            input.name = arr[i].name;
-            input.style = arr[i].style;
+            // var input = document.createElement('input');
+            // input.type = arr[i].type;
+            // input.name = arr[i].name;
+            // input.style = arr[i].style;
+            // input.required = arr[i].required;
+            // var label = document.createElement('label');
+            // label.appendChild(document.createTextNode(arr[i].label));
+            // label.appendChild(input);
+            // label.appendChild(document.createElement('br'));
             var label = document.createElement('label');
             label.appendChild(document.createTextNode(arr[i].label));
-            label.appendChild(input);
+            // label.appendChild(input);
+            label.appendChild(setAttributes(input, arr[i]));
             label.appendChild(document.createElement('br'));
             fieldSet.appendChild(label);
           }
@@ -82,6 +116,7 @@
               radio.type = arr[i].type;
               radio.name = arr[i].name;
               radio.value = arr[i].variants[j].value;
+              radio.required = arr[i].required;
               var span = document.createElement('span');
               span.appendChild(document.createTextNode(arr[i].variants[j].text));
               label.appendChild(radio);
