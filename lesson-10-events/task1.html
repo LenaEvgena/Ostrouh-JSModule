@@ -19,7 +19,7 @@
 
       var formArr =
       [
-        {label: 'Легенда:', type: 'legend', value: 'Для внесения вашего сайта в каталог, заполните форму:', style: ['border: none']},
+        {label: 'Легенда:', type: 'legend', value: 'Для внесения вашего сайта в каталог, заполните форму:', style: 'border: none'},
         {label: 'Разработчики:', type: 'text', name: 'author', style: 'width: 400px', required: true},
         {label: 'Название сайта:', type: 'text', name: 'title', style: 'width: 388px', required: true},
         {label: 'URL сайта:', type: 'text', name: 'titleURL', style: 'width: 300px', required: true},
@@ -34,12 +34,10 @@
       ];
 
       function setAttributes(elem, obj) {
-        for (var key in obj) {
-          elem.type = obj.type;
-          elem.name = obj.name;
-          elem.style = obj.style;
-          elem.required = obj.required;
-        }
+        elem.type = obj.type;
+        elem.name = obj.name;
+        elem.style = obj.style;
+        elem.required = obj.required;
         return elem;
       }
 
@@ -56,7 +54,7 @@
         for (var i = 0; i < arr.length; i++) {
           if (arr[i].type === 'legend') {
             var fieldSet = document.createElement('fieldset');
-            setStyle(fieldSet, arr[i].style);
+            fieldSet.style = arr[i].style;
             var legend = document.createElement('legend');
             legend.appendChild(document.createTextNode('Для внесения вашего сайта в каталог, заполните форму:'));
             fieldSet.appendChild(legend);
@@ -129,7 +127,7 @@
 
             var label = document.createElement('label');
             label.appendChild(document.createTextNode(arr[i].label));
-            label.appendChild(document.createElement('br'))
+            label.appendChild(document.createElement('br'));
             label.appendChild(textarea);
             label.appendChild(document.createElement('br'));
             fieldSet.appendChild(label);
