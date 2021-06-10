@@ -34,7 +34,6 @@
       ];
 
       function setAttributes(elem, obj) {
-        var keys = Object.keys(obj);
         for (var key in obj) {
           elem.type = obj.type;
           elem.name = obj.name;
@@ -44,11 +43,20 @@
         return elem;
       }
 
+      function setStyle(elem, obj) {
+        var styleValue = '';
+        for (var j = 0; j < obj.length; j++) {
+          var style = obj[j];
+          styleValue += style + '; ';
+          elem.setAttribute("style", styleValue);
+        }
+      }
+
       function drawForm(form, arr) {
         for (var i = 0; i < arr.length; i++) {
           if (arr[i].type === 'legend') {
             var fieldSet = document.createElement('fieldset');
-            fieldSet.style = arr[i].style;
+            setStyle(fieldSet, arr[i].style);
             var legend = document.createElement('legend');
             legend.appendChild(document.createTextNode('Для внесения вашего сайта в каталог, заполните форму:'));
             fieldSet.appendChild(legend);
@@ -117,7 +125,7 @@
           if (arr[i].type === 'textarea') {
             var textarea = document.createElement('textarea');
             textarea.name = arr[i].name;
-            textarea.setAttribute("style", arr[i].style[0] + "; " + arr[i].style[1]);
+            setStyle(textarea, arr[i].style);
 
             var label = document.createElement('label');
             label.appendChild(document.createTextNode(arr[i].label));
