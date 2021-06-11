@@ -19,7 +19,7 @@
 
       var formArr =
       [
-        {label: 'Легенда:', type: 'legend', value: 'Для внесения вашего сайта в каталог, заполните форму:', style: 'border: none'},
+        {label: 'Для внесения вашего сайта в каталог, заполните форму:', type: 'legend', style: 'border: none'},
         {label: 'Разработчики:', type: 'text', name: 'author', style: 'width: 400px', required: true},
         {label: 'Название сайта:', type: 'text', name: 'title', style: 'width: 388px', required: true},
         {label: 'URL сайта:', type: 'text', name: 'titleURL', style: 'width: 300px', required: true},
@@ -34,10 +34,25 @@
       ];
 
       function setAttributes(elem, obj) {
-        elem.type = obj.type;
-        elem.name = obj.name;
-        elem.style = obj.style;
-        elem.required = obj.required;
+        var elem = document.createElement(elem);
+        if (obj.type) {
+          elem.type = obj.type;
+        }
+        if (obj.name) {
+          elem.name = obj.name;
+        }
+        if (obj.style) {
+          elem.style = obj.style;
+        }
+        if (obj.value) {
+        elem.value = obj.value;
+        }
+        if (obj.required) {
+          elem.required = obj.required;
+        }
+        if (obj.checked) {
+          elem.checked = obj.checked;
+        }
         return elem;
       }
 
@@ -56,17 +71,20 @@
             var fieldSet = document.createElement('fieldset');
             fieldSet.style = arr[i].style;
             var legend = document.createElement('legend');
-            legend.appendChild(document.createTextNode('Для внесения вашего сайта в каталог, заполните форму:'));
+            legend.appendChild(document.createTextNode(arr[i].label));
             fieldSet.appendChild(legend);
           }
 
-          if (arr[i].type === 'text') {
-            var input = document.createElement('input');
-            var label = document.createElement('label');
-            label.appendChild(document.createTextNode(arr[i].label));
-            label.appendChild(setAttributes(input, arr[i]));
-            label.appendChild(document.createElement('br'));
-            fieldSet.appendChild(label);
+          if (arr[i].type === 'text' || arr[i].type === 'checkbox' || arr[i].type === 'submit') {
+            if (arr[i].type === 'submit') {
+              fieldSet.appendChild(setAttributes('input', arr[i]));
+            } else {
+              var label = document.createElement('label');
+              label.appendChild(document.createTextNode(arr[i].label));
+              label.appendChild(setAttributes('input', arr[i]));
+              label.appendChild(document.createElement('br'));
+              fieldSet.appendChild(label);
+            }
           }
 
           if (arr[i].type === 'select') {
@@ -74,7 +92,6 @@
             list.name = arr[i].name;
             var label = document.createElement('label');
             label.appendChild(document.createTextNode(arr[i].label));
-
             for (var j = 0; j < arr[i].variants.length; j++) {
               var option = document.createElement('option');
               option.value = arr[i].variants[j].value;
@@ -97,7 +114,6 @@
               radio.name = arr[i].name;
               radio.value = arr[i].variants[j].value;
               radio.required = arr[i].required;
-
               var span = document.createElement('span');
               span.appendChild(document.createTextNode(arr[i].variants[j].text));
               label.appendChild(radio);
@@ -107,37 +123,16 @@
             fieldSet.appendChild(label);
           }
 
-          if (arr[i].type === 'checkbox') {
-            var check = document.createElement('input');
-            check.type = arr[i].type;
-            check.name = arr[i].name;
-            check.checked = arr[i].checked;
-
-            var label = document.createElement('label');
-            label.appendChild(document.createTextNode(arr[i].label));
-            label.appendChild(check);
-            label.appendChild(document.createElement('br'));
-            fieldSet.appendChild(label);
-          }
-
           if (arr[i].type === 'textarea') {
             var textarea = document.createElement('textarea');
             textarea.name = arr[i].name;
             setStyle(textarea, arr[i].style);
-
             var label = document.createElement('label');
             label.appendChild(document.createTextNode(arr[i].label));
             label.appendChild(document.createElement('br'));
             label.appendChild(textarea);
             label.appendChild(document.createElement('br'));
             fieldSet.appendChild(label);
-          }
-
-          if (arr[i].type === 'submit') {
-            var button = document.createElement('input');
-            button.type = arr[i].type;
-            button.value = arr[i].value;
-            fieldSet.appendChild(button);
           }
         }
         form.appendChild(fieldSet);
