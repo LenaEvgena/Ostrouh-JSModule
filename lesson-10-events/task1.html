@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form></form>
+
+    <script>
+      "use strict";
+
+      var form = document.querySelector("form");
+      form.setAttribute("name", "form1");
+      form.setAttribute("method", "post");
+      form.setAttribute("action", "http://fe.it;-academy.by/TestForm.php");
+
+      var formArr =
+      [
+        {label: 'Для внесения вашего сайта в каталог, заполните форму:', type: 'legend', style: 'border: none'},
+        {label: 'Разработчики:', type: 'text', name: 'author', style: 'width: 400px', required: true},
+        {label: 'Название сайта:', type: 'text', name: 'title', style: 'width: 388px', required: true},
+        {label: 'URL сайта:', type: 'text', name: 'titleURL', style: 'width: 300px', required: true},
+        {label: 'Дата запуска сайта:', type: 'text', name: 'startdate', style: 'width: 80px', required: true},
+        {label: 'Посетителей в сутки:', type: 'text', name: 'persons', style: 'width: 80px', required: true},
+        {label: 'E-mail для связи:', type: 'text', name: 'email', style: 'width: 200px', required: true},
+        {label: 'Рубрика каталога:', type: 'select', name: 'list', variants: [{text: 'здоровье', value: 1, selected: false}, {text: 'домашний уют', value: 2, selected: false}, {text: 'бытовая техника', value: 3, selected: true}]},
+        {label: 'Размещение:', type: 'radio', name: 'public', variants: [{text: 'бесплатное', value: 1}, {text: 'платное', value: 2}, {text: 'VIP', value: 3}], required: true},
+        {label: 'Разрешить отзывы:', type: 'checkbox', name: 'comments', checked: true},
+        {label: 'Описание сайта:', type: 'textarea', name: 'article', style: ['width: 500px', 'height: 150px']},
+        {label: 'Кнопка', type: 'submit', value: 'Опубликовать'},
+      ];
+
+      function setAttributes(elem, obj) {
+        var elem = document.createElement(elem);
+        if (obj.type) {
+          elem.type = obj.type;
+        }
+        if (obj.name) {
+          elem.name = obj.name;
+        }
+        if (obj.style) {
+          elem.style = obj.style;
+        }
+        if (obj.value) {
+        elem.value = obj.value;
+        }
+        if (obj.required) {
+          elem.required = obj.required;
+        }
+        if (obj.checked) {
+          elem.checked = obj.checked;
+        }
+        return elem;
+      }
+
+      function setStyle(elem, obj) {
+        var styleValue = '';
+        for (var j = 0; j < obj.length; j++) {
+          var style = obj[j];
+          styleValue += style + '; ';
+          elem.setAttribute("style", styleValue);
+        }
+      }
+
+      function drawForm(form, arr) {
+        for (var i = 0; i < arr.length; i++) {
+          if (arr[i].type === 'legend') {
+            var fieldSet = document.createElement('fieldset');
+            fieldSet.style = arr[i].style;
+            var legend = document.createElement('legend');
+            legend.appendChild(document.createTextNode(arr[i].label));
+            fieldSet.appendChild(legend);
+          }
+
+          if (arr[i].type === 'text' || arr[i].type === 'checkbox' || arr[i].type === 'submit') {
+            if (arr[i].type === 'submit') {
+              fieldSet.appendChild(setAttributes('input', arr[i]));
+            } else {
+              var label = document.createElement('label');
+              label.appendChild(document.createTextNode(arr[i].label));
+              label.appendChild(setAttributes('input', arr[i]));
+              label.appendChild(document.createElement('br'));
+              fieldSet.appendChild(label);
+            }
+          }
+
+          if (arr[i].type === 'select') {
+            var list = document.createElement('select');
+            list.name = arr[i].name;
+            var label = document.createElement('label');
+            label.appendChild(document.createTextNode(arr[i].label));
+            for (var j = 0; j < arr[i].variants.length; j++) {
+              var option = document.createElement('option');
+              option.value = arr[i].variants[j].value;
+              option.selected = arr[i].variants[j].selected;
+              option.appendChild(document.createTextNode(arr[i].variants[j].text));
+              list.appendChild(option);
+              label.appendChild(list);
+            }
+            label.appendChild(document.createElement('br'));
+            fieldSet.appendChild(label);
+          }
+
+          if (arr[i].type === 'radio') {
+            var label = document.createElement('label');
+            label.appendChild(document.createTextNode(arr[i].label));
+
+            for (var j = 0; j < arr[i].variants.length; j++) {
+              var radio = document.createElement('input');
+              radio.type = arr[i].type;
+              radio.name = arr[i].name;
+              radio.value = arr[i].variants[j].value;
+              radio.required = arr[i].required;
+              var span = document.createElement('span');
+              span.appendChild(document.createTextNode(arr[i].variants[j].text));
+              label.appendChild(radio);
+              label.appendChild(span);
+            }
+            label.appendChild(document.createElement('br'));
+            fieldSet.appendChild(label);
+          }
+
+          if (arr[i].type === 'textarea') {
+            var textarea = document.createElement('textarea');
+            textarea.name = arr[i].name;
+            setStyle(textarea, arr[i].style);
+            var label = document.createElement('label');
+            label.appendChild(document.createTextNode(arr[i].label));
+            label.appendChild(document.createElement('br'));
+            label.appendChild(textarea);
+            label.appendChild(document.createElement('br'));
+            fieldSet.appendChild(label);
+          }
+        }
+        form.appendChild(fieldSet);
+        return form;
+      }
+
+      drawForm(form, formArr);
+    </script>
+  </body>
+</html>
