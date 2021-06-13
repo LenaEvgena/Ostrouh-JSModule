@@ -7,12 +7,12 @@
   <title>Document</title>
   <style>
     img {
-      width: 130px;
+      width: 180px;
     }
     div {
       border: solid 1px;
       width: 100%;
-      height: 300px;
+      height: 500px;
     }
   </style>
 </head>
@@ -36,36 +36,33 @@
     function Drag_Start(EO) {
       // началось перетаскивание img
       EO = EO || window.event;
+      EO.preventDefault();
       DragImage = EO.target;
       DragShiftX = EO.pageX - DragImage.x;
       DragShiftY = EO.pageY - DragImage.y;
       DragImage.style.cursor = 'grabbing';
       DragImage.style.zIndex = '999';
-      field.addEventListener('mouseup', Drag_Stop);
-      field.addEventListener('mousemove', Drag_Move);
 
-      console.log('starting drag id=' + EO.target.id);
+      field.addEventListener('mousemove', Drag_Move);
+      field.addEventListener('mouseup', Drag_Stop);
     }
 
     function Drag_Move(EO) {
       EO = EO || window.event;
       EO.preventDefault();
       DragImage = EO.target;
-      DragImage.style.zIndex = '999';
-      DragImage.style.left = EO.pageX - DragShiftX + "px";
-      DragImage.style.top = EO.pageY - DragShiftY + "px";
-      console.log('moving drag id=' + EO.target.id);
+      DragImage.style.left = (EO.pageX - DragShiftX) + "px";
+      DragImage.style.top = (EO.pageY - DragShiftY) + "px";
     }
 
     function Drag_Stop(EO) {
       EO = EO || window.event;
       EO.preventDefault();
       DragImage.style.cursor = 'auto';
+      DragImage.style.zIndex = '1';
       DragImage = null;
       field.removeEventListener('mousemove', Drag_Move);
       field.removeEventListener('mouseup', Drag_Stop);
-
-      console.log('stop');
     }
 
     function getElementPos(arr) {
