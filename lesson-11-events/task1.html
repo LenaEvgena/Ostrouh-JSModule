@@ -41,7 +41,6 @@
       DragShiftX = EO.pageX - DragImage.x;
       DragShiftY = EO.pageY - DragImage.y;
       DragImage.style.cursor = 'grabbing';
-      DragImage.style.zIndex = '999';
 
       field.addEventListener('mousemove', Drag_Move);
       field.addEventListener('mouseup', Drag_Stop);
@@ -51,6 +50,7 @@
       EO = EO || window.event;
       EO.preventDefault();
       DragImage = EO.target;
+      DragImage.style.zIndex = '999';
       DragImage.style.left = (EO.pageX - DragShiftX) + "px";
       DragImage.style.top = (EO.pageY - DragShiftY) + "px";
     }
