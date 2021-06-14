@@ -35,7 +35,6 @@
 
     function Drag_Start(EO) {
       // началось перетаскивание img
-      EO = EO || window.event;
       EO.preventDefault();
       DragImage = EO.target;
       DragShiftX = EO.pageX - DragImage.x;
@@ -48,14 +47,12 @@
     }
 
     function Drag_Move(EO) {
-      EO = EO || window.event;
       EO.preventDefault();
       DragImage.style.left = (EO.pageX - DragShiftX) + "px";
       DragImage.style.top = (EO.pageY - DragShiftY) + "px";
     }
 
     function Drag_Stop(EO) {
-      EO = EO || window.event;
       EO.preventDefault();
       DragImage.style.cursor = 'auto';
       DragImage.style.zIndex = '1';
