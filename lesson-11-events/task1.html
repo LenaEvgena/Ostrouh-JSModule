@@ -44,7 +44,7 @@
       DragImage.style.zIndex = '1000';
 
       field.addEventListener('mousemove', Drag_Move);
-      field.addEventListener('mouseup', Drag_Stop);
+      DragImage.addEventListener('mouseup', Drag_Stop);
     }
 
     function Drag_Move(EO) {
@@ -61,7 +61,7 @@
       DragImage.style.zIndex = '1';
       DragImage = null;
       field.removeEventListener('mousemove', Drag_Move);
-      field.removeEventListener('mouseup', Drag_Stop);
+      DragImage.removeEventListener('mouseup', Drag_Stop);
     }
 
     function getElementPos(arr) {
