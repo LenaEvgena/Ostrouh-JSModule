@@ -22,4 +22,42 @@ setInterval(function() {
   time.innerHTML = day.toLocaleTimeString();
 });
 
+var bigRadius = 237;
+var smallRadius = 35;
+
+function PosDigits() {
+  var clockCenter = document.querySelector('.clock');
+  var digits = document.querySelectorAll('.digit');
+
+  var clockCenterX = clockCenter.offsetLeft + clockCenter.offsetWidth / 2;
+  var clockCenterY = clockCenter.offsetTop + clockCenter.offsetHeight / 2;
+
+  for (var h = 0; h < digits.length; h++) {
+    var digit = digits[h];
+    var angle = (h + 1) / 12 * Math.PI * 2;
+    var digitCenterX = clockCenterX + bigRadius * Math.sin(angle);
+    var digitCenterY = clockCenterY - bigRadius * Math.cos(angle);
+
+    digit.style.left = Math.round(digitCenterX - digit.offsetWidth / 2) + 'px';
+    digit.style.top = Math.round(digitCenterY - digit.offsetHeight / 2) + 'px';
+    digit.innerHTML = h + 1;
+  }
+}
+PosDigits();
+// clock.classList.add('clock');
+// clock.className = 'clock';
+
+// createDivElem('wrapper')
+// createDivElem('clock');
+// wrapper.className = 'wrapper';
+// clock.className = 'clock';
+// body.appendChild(wrapper);
+// wrapper.appendChild(clock);
+
+// function createDivElem(elem) {
+//   var elem = document.createElement('div');
+//   // parentElem.appendChild(elem);
+//   return elem;
+// }
+
 
