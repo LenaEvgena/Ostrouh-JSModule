@@ -1,10 +1,12 @@
 'use strict';
 
 var deg = 6;
-var hourA = document.getElementById('hr');
-var minA = document.getElementById('mn');
-var secA = document.getElementById('sc');
+var hourA = document.querySelector('.hour');
+var minA = document.querySelector('.min');
+var secA = document.querySelector('.sec');
 var time = document.querySelector('.time');
+var bigRadius = 237;
+var smallRadius = 35;
 
 setInterval(function() {
   var day = new Date();
@@ -22,8 +24,6 @@ setInterval(function() {
   time.innerHTML = day.toLocaleTimeString();
 });
 
-var bigRadius = 237;
-var smallRadius = 35;
 
 function PosDigits() {
   var clockCenter = document.querySelector('.digits');
