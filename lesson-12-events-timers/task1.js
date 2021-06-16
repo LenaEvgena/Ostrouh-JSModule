@@ -26,7 +26,7 @@ var bigRadius = 237;
 var smallRadius = 35;
 
 function PosDigits() {
-  var clockCenter = document.querySelector('.clock');
+  var clockCenter = document.querySelector('.digits');
   var digits = document.querySelectorAll('.digit');
 
   var clockCenterX = clockCenter.offsetLeft + clockCenter.offsetWidth / 2;
