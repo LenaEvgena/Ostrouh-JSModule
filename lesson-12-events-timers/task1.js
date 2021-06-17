@@ -1,67 +1,59 @@
 'use strict';
 (function() {
 
-  function createClockFace() {
-    var div = document.createElement('div');
-    div.className = 'wrapper';
-    document.body.appendChild(div);
-    createDivElem('clock', 'clock', '.wrapper');
-    createArrows();
-    createDigitalClock();
-    createDigits();
-  }
+  function createClockFace(container) {
+    var clock = document.createElement('div');
+    clock.className = 'clock';
+    clock.appendChild(createArrows());
+    clock.appendChild(createPunto());
+    clock.appendChild(createDigitalClock());
+    clock.appendChild(createDigits());
 
-  createClockFace();
-
-  function createDivElem(elem, className, parentClassName) {
-    var elem = document.createElement('div');
-    elem.className = className;
-    (document.querySelector(parentClassName)).appendChild(elem);
-    return elem;
+    container.className = 'wrapper';
+    container.appendChild(clock);
+    document.body.appendChild(container);
   }
 
   function createArrows() {
-    createDivElem('arrows', 'arrows', '.clock');
-    createDivElem('hour', 'hour', '.arrows');
-    createDivElem('min', 'min', '.arrows');
-    createDivElem('sec', 'sec', '.arrows');
-    createDivElem('punto', 'punto', '.clock');
+    var arrows = document.createElement('div');
+    arrows.className = 'arrows';
+    var hour = document.createElement('div');
+    hour.className = 'hour';
+    var min = document.createElement('div');
+    min.className = 'min';
+    var sec = document.createElement('div');
+    sec.className = 'sec';
+    arrows.appendChild(hour);
+    arrows.appendChild(min);
+    arrows.appendChild(sec);
+    return arrows;
+  }
+
+  function createPunto() {
+    var punto = document.createElement('div');
+    punto.className = 'punto';
+    return punto;
   }
 
   function createDigitalClock() {
-    createDivElem('digitalClock', 'digitalClock', '.clock');
-    createDivElem('time', 'time', '.digitalClock');
+    var digitalClock = document.createElement('div');
+    digitalClock.className = 'digitalClock';
+    var time = document.createElement('div');
+    time.className = 'time';
+    digitalClock.appendChild(time);
+    return digitalClock;
   }
 
   function createDigits() {
-    createDivElem('digits', 'digits', '.clock');
+    var digits = document.createElement('div');
+    digits.className = 'digits';
     for (var i = 1; i <= 12; i++) {
-      createDivElem('digit', 'digit', '.digits');
+      var digit = document.createElement('div');
+      digit.className = 'digit';
+      digits.appendChild(digit);
     }
+    return digits;
   }
-
-  var deg = 6;
-  var hourA = document.querySelector('.hour');
-  var minA = document.querySelector('.min');
-  var secA = document.querySelector('.sec');
-  var time = document.querySelector('.time');
-  var digitPosRadius = 237;
-
-  setInterval(function() {
-    var day = new Date();
-    var seconds = day.getSeconds() * deg;
-    var minutes = day.getMinutes() * deg;
-    var hours = (day.getHours() + (1 / 60) * day.getMinutes()) * 30;
-
-    hourA.style.transform = 'rotate(' + hours + 'deg)';
-    hourA.style.transformOrigin = 'left center';
-    minA.style.transform = 'rotate(' + minutes + 'deg)';
-    minA.style.transformOrigin = 'left center';
-    secA.style.transform = 'rotate(' + seconds + 'deg)';
-    secA.style.transformOrigin = 'left center';
-
-    time.innerHTML = day.toLocaleTimeString();
-  });
 
   function PosDigits() {
     var clockCenter = document.querySelector('.digits');
@@ -81,5 +73,32 @@
       digit.innerHTML = h + 1;
     }
   }
+
+  setInterval(function() {
+    var day = new Date();
+    var seconds = day.getSeconds() * deg;
+    var minutes = day.getMinutes() * deg;
+    var hours = (day.getHours() + (1 / 60) * day.getMinutes()) * 30;
+
+    hourA.style.transform = 'rotate(' + hours + 'deg)';
+    hourA.style.transformOrigin = 'left center';
+    minA.style.transform = 'rotate(' + minutes + 'deg)';
+    minA.style.transformOrigin = 'left center';
+    secA.style.transform = 'rotate(' + seconds + 'deg)';
+    secA.style.transformOrigin = 'left center';
+
+    time.innerHTML = day.toLocaleTimeString();
+  });
+
+  //Start clock
+  var container = document.createElement('div');
+  createClockFace(container);
+
+  var deg = 6;
+  var hourA = document.querySelector('.hour');
+  var minA = document.querySelector('.min');
+  var secA = document.querySelector('.sec');
+  var time = document.querySelector('.time');
+  var digitPosRadius = 237;
   PosDigits();
 })();
