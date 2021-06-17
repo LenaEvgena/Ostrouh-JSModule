@@ -1,9 +1,36 @@
 'use strict';
 (function() {
 
+  var container = document.createElement('div');
+  var digitPosRadius = 237;
+  createClockFace(container);
+
+  var deg = 6;
+  var hourA = document.querySelector('.hour');
+  var minA = document.querySelector('.min');
+  var secA = document.querySelector('.sec');
+  var time = document.querySelector('.time');
+
+  setInterval(function() {
+    var day = new Date();
+    var seconds = day.getSeconds() * deg;
+    var minutes = day.getMinutes() * deg;
+    var hours = (day.getHours() + (1 / 60) * day.getMinutes()) * 30;
+
+    hourA.style.transform = 'rotate(' + hours + 'deg)';
+    hourA.style.transformOrigin = 'left center';
+    minA.style.transform = 'rotate(' + minutes + 'deg)';
+    minA.style.transformOrigin = 'left center';
+    secA.style.transform = 'rotate(' + seconds + 'deg)';
+    secA.style.transformOrigin = 'left center';
+
+    time.innerHTML = day.toLocaleTimeString();
+  });
+
   function createClockFace(container) {
     var clock = document.createElement('div');
     clock.className = 'clock';
+
     clock.appendChild(createArrows());
     clock.appendChild(createPunto());
     clock.appendChild(createDigitalClock());
@@ -12,6 +39,7 @@
     container.className = 'wrapper';
     container.appendChild(clock);
     document.body.appendChild(container);
+    posDigits();
   }
 
   function createArrows() {
@@ -55,7 +83,7 @@
     return digits;
   }
 
-  function PosDigits() {
+  function posDigits() {
     var clockCenter = document.querySelector('.digits');
     var digits = document.querySelectorAll('.digit');
 
@@ -74,31 +102,4 @@
     }
   }
 
-  setInterval(function() {
-    var day = new Date();
-    var seconds = day.getSeconds() * deg;
-    var minutes = day.getMinutes() * deg;
-    var hours = (day.getHours() + (1 / 60) * day.getMinutes()) * 30;
-
-    hourA.style.transform = 'rotate(' + hours + 'deg)';
-    hourA.style.transformOrigin = 'left center';
-    minA.style.transform = 'rotate(' + minutes + 'deg)';
-    minA.style.transformOrigin = 'left center';
-    secA.style.transform = 'rotate(' + seconds + 'deg)';
-    secA.style.transformOrigin = 'left center';
-
-    time.innerHTML = day.toLocaleTimeString();
-  });
-
-  //Start clock
-  var container = document.createElement('div');
-  createClockFace(container);
-
-  var deg = 6;
-  var hourA = document.querySelector('.hour');
-  var minA = document.querySelector('.min');
-  var secA = document.querySelector('.sec');
-  var time = document.querySelector('.time');
-  var digitPosRadius = 237;
-  PosDigits();
 })();
