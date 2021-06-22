@@ -105,12 +105,10 @@ function createDigits() { //цифры
   digits.setAttribute('text-anchor', 'middle');
   digits.setAttribute('stroke', 'black');
   digits.setAttribute('opacity', '0.6');
-  digits.setAttribute('stroke-width', '2');
+  digits.setAttribute('stroke-width', '1');
   digits.setAttribute('alignment-baseline', 'middle');
   digits.setAttribute('font-size', '23');
   digits.setAttribute('textLength', '130');
-  // digits.setAttribute('lengthAdjust', 'spacingAndGlyphs');
-
   return digits;
 }
 // Logic
@@ -142,16 +140,3 @@ function updateDigitalWatch(day) {
   let time = document.getElementById('digitWatch');
   time.textContent = day.toLocaleTimeString();
 }
-
-// function updateDigitalWatch(hour, minute, second) {
-//   let digitalWatchSeconds = document.querySelector('.secondstext');
-//   let digitalWatchMinutes = document.querySelector('.minutestext');
-//   let digitalWatchHours = document.querySelector('.hourstext');
-//   digitalWatchSeconds.textContent = addZeroToNumber(second);
-//   digitalWatchMinutes.textContent = addZeroToNumber(minute);
-//   digitalWatchHours.textContent = addZeroToNumber(hour);
-// }
-
-// function addZeroToNumber(currentTime) {
-//   return (`${currentTime}`.length < 2) ? (`0${currentTime}`) : currentTime;
-// }
