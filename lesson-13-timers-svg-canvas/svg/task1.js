@@ -76,11 +76,11 @@ function createArrow(arrowType, arrowWidth, arrowHeight, arrowColor) {
   return arrow;
 }
 
-function createDecorativeDot(dotSize) {
+function createDecorativeDot(size) {
   let dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
   dot.setAttribute('cy', baseRadius / 2);
   dot.setAttribute('cx', baseRadius / 2);
-  dot.setAttribute('r', dotSize / 2);
+  dot.setAttribute('r', size / 2);
   dot.setAttribute('fill', 'red');
   return dot;
 }
