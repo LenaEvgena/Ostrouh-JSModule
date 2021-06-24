@@ -13,7 +13,6 @@ const font = bigRadius * 0.1 + "px Roboto";//размер шрифта
 const digClockWidth = baseRadius / 1.5; // ширина табло
 const digClockHeight = baseRadius / 6; // высота табло
 
-createWatch();
 setInterval(createWatch, 0);
 
 // UI
