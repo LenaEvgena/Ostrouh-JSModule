@@ -1,10 +1,5 @@
 'use strict';
-// const baseRadius = 500; //радиус циферблата
-// const numbersBaseRadius = baseRadius / 2.5; //радиус оси цифр циферблата
-// const circleRadius = baseRadius / 17; // радиус кружков с цифрами
-// const digClockWidth = baseRadius / 3; // ширина табло
-// const digClockHeight = baseRadius / 10.5; // высота табло
-// const wrapper = document.getElementById('wrapper');
+
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 canvas.width = canvas.height = 600;
@@ -15,6 +10,8 @@ const smallRadius = baseRadius * 0.75; // радиус расположения 
 const numCircleRadius = baseRadius * 0.11; //радиус кружков с цифрами
 const dotSize = baseRadius * 0.04; //размер точки в центре часов
 const font = bigRadius * 0.1 + "px Roboto";//размер шрифта
+const digClockWidth = baseRadius / 1.5; // ширина табло
+const digClockHeight = baseRadius / 6; // высота табло
 
 createWatch();
 setInterval(createWatch, 0);
@@ -23,6 +20,7 @@ setInterval(createWatch, 0);
 
 function createWatch() {
   drawClockFace();
+  createDigitalWatch();
   updateTime();
   createDecorativeDot(dotSize);
 }
@@ -83,38 +81,31 @@ function createArrow(ang, arrowWidth, arrowLength) {
 function createDecorativeDot(size) {
   ctx.save();
   ctx.beginPath();
-  // ctx.moveTo(0, 0);
   ctx.arc(0, 0, size, 0, 2 * Math.PI);
   ctx.fill();
   ctx.restore();
 }
 
 function createDigitalWatch() { //цифровые часы
-  // let textClock = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
-  // textClock.setAttribute('x', baseRadius / 2 - digClockWidth / 2);
-  // textClock.setAttribute('y',  baseRadius / 2 + digClockHeight);
-  // textClock.setAttribute('rx', '5');
-  // textClock.setAttribute('ry', '5');
-  // textClock.setAttribute('width',  digClockWidth);
-  // textClock.setAttribute('height',  digClockHeight);
-  // textClock.setAttribute('fill',  'lightgrey');
-  // return textClock;
+  ctx.save();
+  ctx.beginPath();
+  ctx.fillStyle = 'lightgrey';
+  ctx.rect(-digClockWidth / 2, digClockHeight, digClockWidth, digClockHeight);
+  ctx.fill();
+  ctx.restore();
+  createDigits();
 }
 
 function createDigits() { //цифры
-  // let digits = document.createElementNS("http://www.w3.org/2000/svg", 'text');
-  // digits.id = 'digitWatch';
-  // digits.setAttribute('x', baseRadius / 2);
-  // digits.setAttribute('y', baseRadius / 2 + digClockHeight * 1.5);
-  // digits.setAttribute('text-anchor', 'middle');
-  // digits.setAttribute('stroke', 'black');
-  // digits.setAttribute('opacity', '0.6');
-  // digits.setAttribute('stroke-width', '1');
-  // digits.setAttribute('alignment-baseline', 'middle');
-  // digits.setAttribute('font-size', '23');
-  // digits.setAttribute('textLength', '130');
-  // return digits;
+  ctx.save();
+  ctx.font = font;
+  ctx.fillStyle = 'black';
+  ctx.textBaseline = 'middle';
+  ctx.textAlign = 'center';
+  ctx.fillText(updateDigitalWatch(), 0, digClockHeight * 1.5);
+  ctx.restore();
 }
+
 // Logic
 
 function updateTime() {
@@ -132,16 +123,9 @@ function updateTime() {
   let thisSecondRotate = second * Math.PI / 30;
   createArrow(thisSecondRotate, bigRadius * 0.01, bigRadius * 0.85);
 }
-// function tickTimer() {
-  //   let now = new Date();
-//   let thisSecond = now.getSeconds();
-//   let thisMinute = now.getMinutes();
-//   let thisHour = now.getHours();
-//   updateWatch(thisHour, thisMinute, thisSecond);
-//   updateDigitalWatch(now);
-// }
 
-// function updateDigitalWatch(day) {
-//   let time = document.getElementById('digitWatch');
-//   time.textContent = day.toLocaleTimeString();
-// }
+function updateDigitalWatch() {
+  let now = new Date();
+  let time = now.toLocaleTimeString();
+  return time;
+}
