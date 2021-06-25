@@ -40,17 +40,7 @@ var Racket1 =
   Update: function () {
     var Racket1 = document.getElementById('racket1');
     Racket1.style.top = this.PosY + "px";
-  },
-  // moveUp: function () {
-  //   var Racket1 = document.getElementById('racket1');
-  //   Racket1.PosY -= Racket1.SpeedY;
-  //   Racket1.style.top = this.PosY + "px";
-  // },
-  // moveDown: function () {
-  //   var Racket1 = document.getElementById('racket1');
-  //   Racket1.PosY += Racket1.SpeedY;
-  //   Racket1.style.top = this.PosY + "px";
-  // }
+  }
 }
 
 var Racket2 =
@@ -63,17 +53,7 @@ var Racket2 =
   Update: function () {
     var Racket2 = document.getElementById('racket2');
     Racket2.style.top = this.PosY + "px";
-  },
-  // moveUp: function () {
-  //   var Racket2 = document.getElementById('racket2');
-  //   Racket2.PosY -= Racket2.SpeedY;
-  //   Racket2.style.top = this.PosY + "px";
-  // },
-  // moveDown: function () {
-  //   var Racket2 = document.getElementById('racket2');
-  //   Racket2.PosY += Racket2.SpeedY;
-  //   Racket2.style.top = this.PosY + "px";
-  // }
+  }
 }
 
 function Start() {
@@ -134,12 +114,6 @@ function moveRacket(event) {
   RequestAnimationFrame(moveRacket);
 }
 
-// function stopRacket(whatRacket) {
-  //   whatRacket.SpeedY = 0;
-  //   whatRacket.Update();
-  //   // RequestAnimationFrame(dropBall);
-  // }
-
 function checkPosition(racket) {
   // сместилась ли ракетка выше потолка?
   if (racket.PosY < 0) {
@@ -160,3 +134,17 @@ function checkPosition(racket) {
   racket.Update();
 }
 
+function moveUp(racket) {
+  var racket = document.getElementById('racket');
+  racket.PosY -= racket.SpeedY;
+  racket.style.top = racket.PosY + "px";
+  }
+function moveDown(racket) {
+  var racket = document.getElementById('racket');
+  racket.PosY += racket.SpeedY;
+  racket.style.top = racket.PosY + "px";
+}
+function stopRacket(racket) {
+  racket.SpeedY = 0;
+  racket.Update();
+}
