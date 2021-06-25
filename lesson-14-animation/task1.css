@@ -1,7 +1,7 @@
 * {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
+  /* box-sizing: border-box; */
 }
 .wrapper {
   margin: 0 auto;
@@ -24,7 +24,7 @@
   margin-right: 200px;
   font: arial, helvetica;
   font-size: 24px;
-  border: none;
+  /* border: none; */
   background-color: lightgrey;
 }
 .field {
@@ -33,6 +33,21 @@
   height: 400px;
   background-color: rgb(211, 252, 136);
   border: solid green 2px;
+}
+.racket {
+  position: absolute;
+  width: 15px;
+  height: 130px;
+}
+#racket1 {
+  background-color: green;
+  top: 135px;
+  left: 0;
+}
+#racket2 {
+  background-color: blue;
+  top: 135px;
+  left: 585px;
 }
 .ball {
   position: absolute;
