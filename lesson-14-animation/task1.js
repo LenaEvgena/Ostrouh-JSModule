@@ -15,19 +15,19 @@ var AreaH =
     Height: 400
   }
 
-function GameObject(PosX, PosY, SpeedX, SpeedY, width, height) {
-    this.PosX = PosX,
-    this.PosY = PosY,
-    this.SpeedX = SpeedX,
-    this.SpeedY = SpeedY,
-    this.Width = width,
-    this.Height = height
-}
+// function GameObject(PosX, PosY, SpeedX, SpeedY, width, height) {
+//     this.PosX = PosX,
+//     this.PosY = PosY,
+//     this.SpeedX = SpeedX,
+//     this.SpeedY = SpeedY,
+//     this.Width = width,
+//     this.Height = height
+// }
 
-GameObject.prototype.Update = function() {
-  this.style.left = this.PosX + "px";
-  this.style.top = this.PosY + "px";
-}
+// GameObject.prototype.Update = function() {
+//   this.style.left = this.PosX + "px";
+//   this.style.top = this.PosY + "px";
+// }
 
 var BallH =
   {
@@ -73,39 +73,55 @@ var Racket2 =
 
 //старт
 function Start() {
-  resetPositions();
+  // resetPositions();
   RequestAnimationFrame(throwBall);
   RequestAnimationFrame(moveRacket);
 }
 
-document.querySelector('.btn').addEventListener('click', Start);
+document.querySelector('#start').addEventListener('click', Start);
+document.querySelector('#reset').addEventListener('click', resetPositions);
 document.addEventListener('keydown', moveRacket);
 // document.addEventListener('keyup', stopRacket, false);
 
 //движение мяча
 //отталкивание от стены
 function resetPositions() {
-  return BallH.PosX = 275,
-  BallH.PosY = 175,
-  Racket1.PosX = 0,
-  Racket1.PosY = 135,
-  Racket2.PosX = 585,
+  BallH.PosX = 275;
+  BallH.PosY = 175;
+  Racket1.PosX = 0;
+  Racket1.PosY = 135;
+  Racket2.PosX = 585;
   Racket2.PosY = 135;
+  //score обнулить
 }
 
 function throwBall() {
   BallH.PosX += BallH.SpeedX;
   //справа
   if (BallH.PosX + BallH.Width > AreaH.Width - Racket2.Width) {
-    BallH.SpeedX = -BallH.SpeedX;
-    BallH.PosX = AreaH.Width - Racket2.Width - BallH.Width;
-    ifItsGoal();
+    if (BallH.PosY + BallH.Height > Racket2.PosY && BallH.PosY < Racket2.PosY + Racket2.Height) {
+      BallH.SpeedX = -BallH.SpeedX;
+      BallH.PosX = AreaH.Width - Racket2.Width - BallH.Width;
+    } else {
+      BallH.SpeedX = 0;
+      BallH.SpeedY = 0;
+      BallH.PosX = AreaH.Width - BallH.Width + 5;
+      BallH.PosY = BallH.PosY;
+      BallH.Update();
+    }
   }
   // слева
   if (BallH.PosX < 0 + Racket1.Width) {
-    BallH.SpeedX = -BallH.SpeedX;
-    BallH.PosX = 0 + Racket1.Width;
-    ifItsGoal();
+    if (BallH.PosY + BallH.Height > Racket1.PosY && BallH.PosY < Racket1.PosY + Racket1.Height) {
+      BallH.SpeedX = -BallH.SpeedX;
+      BallH.PosX = 0 + Racket1.Width;
+    } else {
+      BallH.SpeedX = 0;
+      BallH.SpeedY = 0;
+      BallH.PosX = 0;
+      BallH.PosY = BallH.PosY;
+      BallH.Update();
+    }
   }
   BallH.PosY += BallH.SpeedY;
   // вылетел ли мяч ниже пола?
@@ -226,7 +242,5 @@ function stopRacket(racket) {
 //фиксация мяча у стены
 //счет
 //выигрыш
-function ifItsGoal() {
-  if(BallH.PosX + BallH.Width > AreaH.Width && BallH.PosY + BallH.Height > Racket1.Height) {}
-}
+
 //UI
