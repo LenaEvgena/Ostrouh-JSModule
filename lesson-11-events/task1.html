@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    img {
+      width: 180px;
+    }
+    div {
+      border: solid 1px;
+      width: 100%;
+      height: 500px;
+    }
+  </style>
+</head>
+<body>
+  <div class=field>
+    <img id=image1 src="./img/pets-jennifer.png" alt="puppy" onmousedown="Drag_Start(event)">
+    <img id=image2 src="./img/pets-katrine.png" alt="puppy" onmousedown="Drag_Start(event)">
+    <img id=image3 src="./img/pets-scarlet.png" alt="puppy" onmousedown="Drag_Start(event)">
+  </div>
+
+  <script>
+    'use strict';
+    var DragImage=null; // какая картинка сейчас перетаскивается
+    var DragShiftX;
+    var DragShiftY;
+    var field = document.querySelector('.field');
+    var images = document.getElementsByTagName('img');
+
+    getElementPos(images);
+
+    function Drag_Start(EO) {
+      // началось перетаскивание img
+      EO.preventDefault();
+      DragImage = EO.target;
+      DragShiftX = EO.pageX - DragImage.x;
+      DragShiftY = EO.pageY - DragImage.y;
+      DragImage.style.cursor = 'grabbing';
+      DragImage.style.zIndex = '1000';
+
+      field.addEventListener('mousemove', Drag_Move);
+      DragImage.addEventListener('mouseup', Drag_Stop);
+    }
+
+    function Drag_Move(EO) {
+      EO.preventDefault();
+      DragImage.style.left = (EO.pageX - DragShiftX) + "px";
+      DragImage.style.top = (EO.pageY - DragShiftY) + "px";
+    }
+
+    function Drag_Stop(EO) {
+      EO.preventDefault();
+      DragImage.style.cursor = 'auto';
+      DragImage.style.zIndex = '1';
+      DragImage = null;
+      field.removeEventListener('mousemove', Drag_Move);
+      DragImage.removeEventListener('mouseup', Drag_Stop);
+    }
+
+    function getElementPos(arr) {
+      var X = [];
+      var Y = [];
+      for (var i = 0; i < arr.length; i++) {
+        X.push(arr[i].offsetLeft);
+        Y.push(arr[i].offsetTop);
+      }
+      for (var i = 0; i < arr.length; i++) {
+        arr[i].style.position = 'absolute';
+        arr[i].style.left = X[i] + 'px';
+        arr[i].style.top = Y[i] + 'px';
+      }
+      return {left: X, top: Y};
+    }
+
+      </script>
+</body>
+</html>
