@@ -1,7 +1,6 @@
 * {
   margin: 0;
   padding: 0;
-  /* box-sizing: border-box; */
 }
 .wrapper {
   margin: 0 auto;
@@ -31,7 +30,7 @@
   width: 600px;
   height: 400px;
   background-color: rgb(211, 252, 136);
-  border: solid green 2px;
+  border: solid green 1px;
 }
 .racket {
   position: absolute;
