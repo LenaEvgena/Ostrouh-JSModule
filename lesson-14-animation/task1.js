@@ -1,33 +1,108 @@
 'use strict';
 
-var AreaH =
+//UI
+createGame();
+
+function createGame() {
+  var wrapper = document.querySelector('.wrapper');
+  wrapper.appendChild( createControls() );
+  wrapper.appendChild( createDesk() );
+}
+
+function createControls() {
+  var title = createDivElement('', 'title');
+  title.appendChild( createButton('reset', 'btn', 'Reset') );
+  title.appendChild( createButton('start', 'btn', 'Start!') );
+  var div = createDivElement('', 'score');
+  div.appendChild( createSpan('player1-score', '0') );
+  div.appendChild( createSpan('', ':') );
+  div.appendChild( createSpan('player2-score', '0') );
+  title.appendChild(div);
+  return title;
+}
+
+function createButton(id, className, value) {
+  var button = document.createElement('input');
+  button.setAttribute('type', 'button');
+  button.setAttribute('id', id);
+  button.className = className;
+  button.setAttribute('value', value)
+  return button;
+}
+
+function createDivElement(id, className) {
+  var div = document.createElement('div');
+  div.setAttribute('id', id);
+  div.className = className;
+  return div;
+}
+
+function createSpan(className, text) {
+  var span = document.createElement('span');
+  span.className = className;
+  span.textContent = text;
+  return span;
+}
+
+function createDesk() {
+  var div = createDivElement('', 'area');
+  div.style.width = 600 + 'px';
+  div.style.height = 400 + 'px';
+  div.appendChild( createRackets('Racket1', 'racket1', 16, 140) );
+  div.appendChild( createRackets('Racket2', 'racket2', 16, 140) );
+  div.appendChild( createImage('img/ball.png', 'IBall', 'ball', 50) );
+
+  return div;
+}
+
+function createRackets(elem, id, width, height) {
+  var elem = createDivElement('div');
+  elem.className = 'racket';
+  elem.id = id;
+  elem.style.width = width + 'px';
+  elem.style.height = height + 'px';
+  return elem;
+}
+
+function createImage(src, id, alt, width) {
+  var ball = document.createElement('img');
+  // ball.setAttribute('src', src);
+  ball.setAttribute('id', id);
+  ball.setAttribute('alt', alt);
+  ball.style.width = width + 'px';
+  return ball;
+}
+function createGameO
+//Logic
+var Area =
   {
-    Width: 600,
-    Height: 400
+    width: 600,
+    height: 400
   }
 
-var BallH =
+var Ball =
   {
-    PosX: AreaH.Width / 2 - 25,
-    PosY: AreaH.Height / 2 - 25,
+    PosX: Area.width / 2 - 25,
+    PosY: Area.height / 2 - 25,
     SpeedX: 4,
     SpeedY: 3,
-    Width: 50,
-    Height: 50,
+    width: 50,
+    height: 50,
     Update: function () {
       var Ball = document.getElementById('IBall');
       Ball.style.left = this.PosX + "px";
       Ball.style.top = this.PosY + "px";
     },
   };
+  Ball.Update();
 
 var Racket1 =
   {
     PosX: 0,
-    PosY: AreaH.Height / 2 - 70,
+    PosY: Area.height / 2 - 70,
     SpeedY: 0,
-    Width: 16,
-    Height: 140,
+    width: 16,
+    height: 140,
     Update: function () {
       var Racket1 = document.getElementById('racket1');
       Racket1.style.left = this.PosX + "px";
@@ -43,11 +118,11 @@ var Racket1 =
 
 var Racket2 =
   {
-    PosX: AreaH.Width - 16,
-    PosY: AreaH.Height / 2 - 70,
+    PosX: Area.width - 16,
+    PosY: Area.height / 2 - 70,
     SpeedY: 0,
-    Width: 16,
-    Height: 140,
+    width: 16,
+    height: 140,
     Update: function () {
       var Racket2 = document.getElementById('racket2');
       Racket2.style.left = this.PosX + "px";
@@ -66,67 +141,49 @@ var Racket2 =
 //отталктвание от ракеток
 //фиксация мяча у стены
 function throwBall() {
-  BallH.PosX += BallH.SpeedX;
+  Ball.PosX += Ball.SpeedX;
   // слева
-  if (BallH.PosX < 0 + Racket1.Width) {
-    if (BallH.PosY + BallH.Height > Racket1.PosY && BallH.PosY < Racket1.PosY + Racket1.Height) {//мяч напротив ракетки
-      BallH.SpeedX = -BallH.SpeedX;
-      BallH.PosX = 0 + Racket1.Width;
+  if (Ball.PosX < 0 + Racket1.width) {
+    if (Ball.PosY + Ball.height > Racket1.PosY && Ball.PosY < Racket1.PosY + Racket1.height) {//мяч напротив ракетки
+      Ball.SpeedX = -Ball.SpeedX;
+      Ball.PosX = 0 + Racket1.width;
     } else {
-      BallH.SpeedX = 0;
-      BallH.SpeedY = 0;
-      BallH.PosX = 0;
-      BallH.PosY = BallH.PosY;
-      BallH.Update();
+      Ball.SpeedX = 0;
+      Ball.SpeedY = 0;
+      Ball.PosX = 0;
+      Ball.PosY = Ball.PosY;
+      Ball.Update();
     }
   }
   //справа
-  if (BallH.PosX + BallH.Width > AreaH.Width - Racket2.Width) {
-    if (BallH.PosY + BallH.Height > Racket2.PosY && BallH.PosY < Racket2.PosY + Racket2.Height) {//мяч напротив ракетки
-      BallH.SpeedX = -BallH.SpeedX;
-      BallH.PosX = AreaH.Width - Racket2.Width - BallH.Width;
+  if (Ball.PosX + Ball.width > Area.width - Racket2.width) {
+    if (Ball.PosY + Ball.height > Racket2.PosY && Ball.PosY < Racket2.PosY + Racket2.height) {//мяч напротив ракетки
+      Ball.SpeedX = -Ball.SpeedX;
+      Ball.PosX = Area.width - Racket2.width - Ball.width;
     } else {
-      BallH.SpeedX = 0;
-      BallH.SpeedY = 0;
-      BallH.PosX = AreaH.Width - BallH.Width + 5;
-      BallH.PosY = BallH.PosY;
-      BallH.Update();
+      Ball.SpeedX = 0;
+      Ball.SpeedY = 0;
+      Ball.PosX = Area.width - Ball.width + 5;
+      Ball.PosY = Ball.PosY;
+      Ball.Update();
     }
   }
-  BallH.PosY += BallH.SpeedY;
+  Ball.PosY += Ball.SpeedY;
   // вылетел ли мяч ниже пола?
-  if (BallH.PosY + BallH.Height > AreaH.Height) {
-    BallH.SpeedY = -BallH.SpeedY;
-    BallH.PosY = AreaH.Height - BallH.Height;
+  if (Ball.PosY + Ball.height > Area.height) {
+    Ball.SpeedY = -Ball.SpeedY;
+    Ball.PosY = Area.height - Ball.height;
   }
   // вылетел ли мяч выше потолка?
-  if (BallH.PosY < 0) {
-    BallH.SpeedY = -BallH.SpeedY;
-    BallH.PosY = 0;
+  if (Ball.PosY < 0) {
+    Ball.SpeedY = -Ball.SpeedY;
+    Ball.PosY = 0;
   }
-  BallH.Update();
+  Ball.Update();
 }
-BallH.Update();
+Ball.Update();
 Racket1.Update();
 Racket2.Update();
-
-// function ifItsGoal(racket) {
-//   // вылетел ли мяч левее стены
-//   if (racket === 'Racket1') {
-//     BallH.SpeedX = 0;
-//     BallH.SpeedY = 0;
-//     BallH.PosX = 0;
-//     BallH.PosY = BallH.PosY;
-//   }
-//   // вылетел ли мяч правее стены
-//   if (racket === 'Racket2') {
-//     BallH.SpeedX = 0;
-//     BallH.SpeedY = 0;
-//     BallH.PosX = AreaH.Width - BallH.Width + 5;
-//     BallH.PosY = BallH.PosY;
-//   }
-//   BallH.Update();
-// }
 
 //рандомный вылет
 
@@ -145,16 +202,16 @@ function checkRacketsPosition(racket) {
     racket.PosY = 0;
   }
   // сместилась ли ракетка ниже пола?
-  if (racket.PosY + racket.Height > AreaH.Height) {
-    racket.PosY = AreaH.Height - racket.Height;
+  if (racket.PosY + racket.height > Area.height) {
+    racket.PosY = Area.height - racket.height;
   }
   // сместилась ли ракетка выше потолка?
   if (racket.PosY < 0) {
     racket.PosY = 0;
   }
   // сместилась ли ракетка ниже пола?
-  if (racket.PosY + racket.Height > AreaH.Height) {
-    racket.PosY = AreaH.Height - racket.Height;
+  if (racket.PosY + racket.height > Area.height) {
+    racket.PosY = Area.height - racket.height;
   }
   racket.Update();
 }
@@ -210,12 +267,12 @@ function stopRackets() {
 }
 
 function resetPositions() {
-  BallH.PosX = AreaH.Width / 2 - BallH.Width / 2;
-  BallH.PosY = AreaH.Height / 2 - BallH.Height / 2;
+  Ball.PosX = Area.width / 2 - Ball.width / 2;
+  Ball.PosY = Area.height / 2 - Ball.height / 2;
   Racket1.PosX = 0;
-  Racket1.PosY = AreaH.Height / 2 - Racket1.Height / 2;
-  Racket2.PosX = AreaH.Width - Racket2.Width;
-  Racket2.PosY = AreaH.Height / 2 - Racket2.Height / 2;
+  Racket1.PosY = Area.height / 2 - Racket1.height / 2;
+  Racket2.PosX = Area.width - Racket2.width;
+  Racket2.PosY = Area.height / 2 - Racket2.height / 2;
   //убрать таймер
   cancelAnimationFrame(Start);
   //score обнулить
@@ -229,4 +286,4 @@ document.querySelector('#reset').addEventListener('click', resetPositions);
 
 
 
-//UI
+
