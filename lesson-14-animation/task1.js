@@ -65,28 +65,28 @@ var Racket2 =
 //фиксация мяча у стены
 function throwBall() {
   BallH.PosX += BallH.SpeedX;
-  //справа
-  if (BallH.PosX + BallH.Width > AreaH.Width - Racket2.Width) {
-    if (BallH.PosY + BallH.Height > Racket2.PosY && BallH.PosY < Racket2.PosY + Racket2.Height) {
-      BallH.SpeedX = -BallH.SpeedX;
-      BallH.PosX = AreaH.Width - Racket2.Width - BallH.Width;
-    } else {
-      BallH.SpeedX = 0;
-      BallH.SpeedY = 0;
-      BallH.PosX = AreaH.Width - BallH.Width + 5;
-      BallH.PosY = BallH.PosY;
-      BallH.Update();
-    }
-  }
   // слева
   if (BallH.PosX < 0 + Racket1.Width) {
-    if (BallH.PosY + BallH.Height > Racket1.PosY && BallH.PosY < Racket1.PosY + Racket1.Height) {
+    if (BallH.PosY + BallH.Height > Racket1.PosY && BallH.PosY < Racket1.PosY + Racket1.Height) {//мяч напротив ракетки
       BallH.SpeedX = -BallH.SpeedX;
       BallH.PosX = 0 + Racket1.Width;
     } else {
       BallH.SpeedX = 0;
       BallH.SpeedY = 0;
       BallH.PosX = 0;
+      BallH.PosY = BallH.PosY;
+      BallH.Update();
+    }
+  }
+  //справа
+  if (BallH.PosX + BallH.Width > AreaH.Width - Racket2.Width) {
+    if (BallH.PosY + BallH.Height > Racket2.PosY && BallH.PosY < Racket2.PosY + Racket2.Height) {//мяч напротив ракетки
+      BallH.SpeedX = -BallH.SpeedX;
+      BallH.PosX = AreaH.Width - Racket2.Width - BallH.Width;
+    } else {
+      BallH.SpeedX = 0;
+      BallH.SpeedY = 0;
+      BallH.PosX = AreaH.Width - BallH.Width + 5;
       BallH.PosY = BallH.PosY;
       BallH.Update();
     }
@@ -106,25 +106,24 @@ function throwBall() {
 }
 BallH.Update();
 
-function ifItsGoal() {
-  // вылетел ли мяч правее стены
-  if (BallH.PosY + BallH.Height < Racket2.PosY || BallH.PosY > Racket2.PosY + Racket2.Height) {
-    BallH.SpeedX = 0;
-    BallH.SpeedY = 0;
-    BallH.PosX = AreaH.Width - BallH.Width;
-    BallH.PosY = BallH.PosY;
-  }
+function ifItsGoal(racket) {
   // вылетел ли мяч левее стены
-  if (BallH.PosY + BallH.Height < Racket1.PosY || BallH.PosY > Racket1.PosY + Racket1.Height) {
+  if (racket === 'Racket1') {
     BallH.SpeedX = 0;
     BallH.SpeedY = 0;
     BallH.PosX = 0;
     BallH.PosY = BallH.PosY;
   }
-  BallH.PosY += BallH.SpeedY;
+  // вылетел ли мяч правее стены
+  if (racket === 'Racket2') {
+    BallH.SpeedX = 0;
+    BallH.SpeedY = 0;
+    BallH.PosX = AreaH.Width - BallH.Width + 5;
+    BallH.PosY = BallH.PosY;
+  }
   BallH.Update();
-  cancelAnimationFrame(Start);
 }
+
 //рандомный вылет
 
 
