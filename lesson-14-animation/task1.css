@@ -38,6 +38,8 @@
   background-color: blue;
   position: absolute;
 }
-.ball {
+#Ball {
+  background-color: darkred;
+  border-radius: 50%;
   position: absolute;
 }

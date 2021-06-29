@@ -48,31 +48,22 @@ function createDesk() {
   var div = createDivElement('', 'area');
   div.style.width = 600 + 'px';
   div.style.height = 400 + 'px';
-  div.appendChild( createRackets('Racket1', 'racket1', 16, 140) );
-  div.appendChild( createRackets('Racket2', 'racket2', 16, 140) );
-  div.appendChild( createImage('img/ball.png', 'IBall', 'ball', 50) );
+  div.appendChild( createGameElement('Racket1', 'racket1', 16, 140, 'racket') );
+  div.appendChild( createGameElement('Racket2', 'racket2', 16, 140, 'racket') );
+  div.appendChild( createGameElement('Ball', 'Ball', 40, 40) );
 
   return div;
 }
 
-function createRackets(elem, id, width, height) {
+function createGameElement(elem, id, width, height, className) {
   var elem = createDivElement('div');
-  elem.className = 'racket';
+  elem.className = className;
   elem.id = id;
   elem.style.width = width + 'px';
   elem.style.height = height + 'px';
   return elem;
 }
 
-function createImage(src, id, alt, width) {
-  var ball = document.createElement('img');
-  // ball.setAttribute('src', src);
-  ball.setAttribute('id', id);
-  ball.setAttribute('alt', alt);
-  ball.style.width = width + 'px';
-  return ball;
-}
-function createGameO
 //Logic
 var Area =
   {
@@ -82,14 +73,14 @@ var Area =
 
 var Ball =
   {
-    PosX: Area.width / 2 - 25,
-    PosY: Area.height / 2 - 25,
+    PosX: Area.width / 2 - 20,
+    PosY: Area.height / 2 - 20,
     SpeedX: 4,
     SpeedY: 3,
-    width: 50,
-    height: 50,
+    width: 40,
+    height: 40,
     Update: function () {
-      var Ball = document.getElementById('IBall');
+      var Ball = document.getElementById('Ball');
       Ball.style.left = this.PosX + "px";
       Ball.style.top = this.PosY + "px";
     },
@@ -163,7 +154,7 @@ function throwBall() {
     } else {
       Ball.SpeedX = 0;
       Ball.SpeedY = 0;
-      Ball.PosX = Area.width - Ball.width + 5;
+      Ball.PosX = Area.width - Ball.width;
       Ball.PosY = Ball.PosY;
       Ball.Update();
     }
