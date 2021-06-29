@@ -8,8 +8,8 @@ var AreaH =
 
 var BallH =
   {
-    PosX: 275,
-    PosY: 175,
+    PosX: AreaH.Width / 2 - 25,
+    PosY: AreaH.Height / 2 - 25,
     SpeedX: 4,
     SpeedY: 3,
     Width: 50,
@@ -24,12 +24,13 @@ var BallH =
 var Racket1 =
   {
     PosX: 0,
-    PosY: 135,
+    PosY: AreaH.Height / 2 - 70,
     SpeedY: 0,
-    Width: 15,
-    Height: 130,
+    Width: 16,
+    Height: 140,
     Update: function () {
       var Racket1 = document.getElementById('racket1');
+      Racket1.style.left = this.PosX + "px";
       Racket1.style.top = this.PosY + "px";
     },
     Move: function () {
@@ -42,13 +43,14 @@ var Racket1 =
 
 var Racket2 =
   {
-    PosX: 585,
-    PosY: 135,
+    PosX: AreaH.Width - 16,
+    PosY: AreaH.Height / 2 - 70,
     SpeedY: 0,
-    Width: 15,
-    Height: 130,
+    Width: 16,
+    Height: 140,
     Update: function () {
       var Racket2 = document.getElementById('racket2');
+      Racket2.style.left = this.PosX + "px";
       Racket2.style.top = this.PosY + "px";
     },
     Move: function () {
@@ -105,24 +107,26 @@ function throwBall() {
   BallH.Update();
 }
 BallH.Update();
+Racket1.Update();
+Racket2.Update();
 
-function ifItsGoal(racket) {
-  // вылетел ли мяч левее стены
-  if (racket === 'Racket1') {
-    BallH.SpeedX = 0;
-    BallH.SpeedY = 0;
-    BallH.PosX = 0;
-    BallH.PosY = BallH.PosY;
-  }
-  // вылетел ли мяч правее стены
-  if (racket === 'Racket2') {
-    BallH.SpeedX = 0;
-    BallH.SpeedY = 0;
-    BallH.PosX = AreaH.Width - BallH.Width + 5;
-    BallH.PosY = BallH.PosY;
-  }
-  BallH.Update();
-}
+// function ifItsGoal(racket) {
+//   // вылетел ли мяч левее стены
+//   if (racket === 'Racket1') {
+//     BallH.SpeedX = 0;
+//     BallH.SpeedY = 0;
+//     BallH.PosX = 0;
+//     BallH.PosY = BallH.PosY;
+//   }
+//   // вылетел ли мяч правее стены
+//   if (racket === 'Racket2') {
+//     BallH.SpeedX = 0;
+//     BallH.SpeedY = 0;
+//     BallH.PosX = AreaH.Width - BallH.Width + 5;
+//     BallH.PosY = BallH.PosY;
+//   }
+//   BallH.Update();
+// }
 
 //рандомный вылет
 
@@ -206,12 +210,12 @@ function stopRackets() {
 }
 
 function resetPositions() {
-  BallH.PosX = 275;
-  BallH.PosY = 175;
+  BallH.PosX = AreaH.Width / 2 - BallH.Width / 2;
+  BallH.PosY = AreaH.Height / 2 - BallH.Height / 2;
   Racket1.PosX = 0;
-  Racket1.PosY = 135;
-  Racket2.PosX = 585;
-  Racket2.PosY = 135;
+  Racket1.PosY = AreaH.Height / 2 - Racket1.Height / 2;
+  Racket2.PosX = AreaH.Width - Racket2.Width;
+  Racket2.PosY = AreaH.Height / 2 - Racket2.Height / 2;
   //убрать таймер
   cancelAnimationFrame(Start);
   //score обнулить

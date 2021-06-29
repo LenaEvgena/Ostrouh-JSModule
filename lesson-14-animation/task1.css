@@ -33,19 +33,16 @@
   border: solid green 1px;
 }
 .racket {
-  position: absolute;
-  width: 15px;
-  height: 130px;
+  width: 16px;
+  height: 140px;
 }
 #racket1 {
   background-color: green;
-  top: 135px;
-  left: 0;
+  position: absolute;
 }
 #racket2 {
   background-color: blue;
-  top: 135px;
-  left: 585px;
+  position: absolute;
 }
 .ball {
   position: absolute;
