@@ -125,9 +125,9 @@ var Racket2 =
       this.SpeedY = 0;
     },
   }
+
 var player1Score = 0;
 var player2Score = 0;
-
 
 startRacketsPos();
 
@@ -290,6 +290,7 @@ function stopBall() {
   Ball.SpeedY = 0;
   Ball.Update();
 }
+
 function goalBall(player) {
   if (player === 1) {
     Ball.PosX = 0;
