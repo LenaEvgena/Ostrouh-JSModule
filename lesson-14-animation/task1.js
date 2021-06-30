@@ -142,25 +142,26 @@ function throwBall() {
     if (Ball.PosY + Ball.height > Racket1.PosY && Ball.PosY < Racket1.PosY + Racket1.height) {//мяч напротив ракетки
       Ball.SpeedX = -Ball.SpeedX;
       Ball.PosX = 0 + Racket1.width;
-    } else {
-      goalBall(1);
-      player2Score++;
-      setScore(2, player2Score);
-      stopBall();
     }
+  }
+  if (Ball.PosX < 0) { //мяч вне поля
+    goalBall(1);
+    player2Score++;
+    setScore(2, player2Score);
   }
   //справа
   if (Ball.PosX + Ball.width > Area.width - Racket2.width) {
     if (Ball.PosY + Ball.height > Racket2.PosY && Ball.PosY < Racket2.PosY + Racket2.height) {//мяч напротив ракетки
       Ball.SpeedX = -Ball.SpeedX;
       Ball.PosX = Area.width - Racket2.width - Ball.width;
-    } else {
-      goalBall(2);
-      player1Score++;
-      setScore(1, player1Score);
-      stopBall();
     }
   }
+  if (Ball.PosX + Ball.width > Area.width) {
+    goalBall(2);
+    player1Score++;
+    setScore(1, player1Score);
+  }
+
   Ball.PosY += Ball.SpeedY;
   // вылетел ли мяч ниже пола?
   if (Ball.PosY + Ball.height > Area.height) {
@@ -174,6 +175,7 @@ function throwBall() {
   }
   Ball.Update();
 }
+
 Ball.Update();
 Racket1.Update();
 Racket2.Update();
@@ -262,8 +264,6 @@ function setScore(player, score) {
   playerScore.innerHTML = score;
 }
 
-
-
 //старт
 function loadGame() {
   throwBall();
@@ -291,8 +291,7 @@ function stopBall() {
   Ball.Update();
 }
 function goalBall(player) {
-  if ((Ball.PosX + Ball.width > Area.width) || (Ball.PosX < Area.width)) {
-    if (player === 1) {
+  if (player === 1) {
     Ball.PosX = 0;
     Ball.PosY = Ball.PosY;
     Ball.SpeedX = 0;
@@ -304,8 +303,6 @@ function goalBall(player) {
     Ball.SpeedY = 0;
   }
   Ball.Update();
-  }
-
 }
 
 function resetAllPositions() {
@@ -326,30 +323,3 @@ document.addEventListener('keydown', getSpeed);
 document.addEventListener('keyup', stopRackets);
 document.querySelector('#start').addEventListener('click', Start);
 document.querySelector('#reset').addEventListener('click', resetAllPositions);
-
-
-
-// function score() {
-//   var sc = 0;
-//   return function(correct) {
-//     if (correct) {
-//       sc++;
-//     }
-//     return sc;
-//   }
-// }
-
-// var keepScore = score();
-// Question.prototype.checkAnswer = function(ans, callback) {
-//   var sc;
-
-//   if (ans === this.correct) {
-//     console.log('Correct answer!');
-//     sc = callback(true);
-//   } else {
-//     console.log('Wrong answer. Try again :)');
-//     sc = callback(false);
-//   }
-
-//   this.displayScore(sc);
-// };
