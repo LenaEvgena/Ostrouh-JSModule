@@ -125,19 +125,17 @@ var Racket2 =
       this.SpeedY = 0;
     },
   }
+var player1Score = 0;
+var player2Score = 0;
 
 
-
-  startRacketsPos();
+startRacketsPos();
 
 //движение мяча
 //отталкивание от стены
 //отталктвание от ракеток
 //фиксация мяча у стены
 function throwBall() {
-  var player1Score = 0;
-  var player2Score = 0;
-
   Ball.PosX += Ball.SpeedX;
   // слева
   if (Ball.PosX < 0 + Racket1.width) {
@@ -145,13 +143,10 @@ function throwBall() {
       Ball.SpeedX = -Ball.SpeedX;
       Ball.PosX = 0 + Racket1.width;
     } else {
+      goalBall(1);
       player2Score++;
       setScore(2, player2Score);
-      Ball.PosX = 0;
-      Ball.PosY = Ball.PosY;
-      Ball.SpeedX = 0;
-      Ball.SpeedY = 0;
-      Ball.Update();
+      stopBall();
     }
   }
   //справа
@@ -160,13 +155,10 @@ function throwBall() {
       Ball.SpeedX = -Ball.SpeedX;
       Ball.PosX = Area.width - Racket2.width - Ball.width;
     } else {
+      goalBall(2);
       player1Score++;
       setScore(1, player1Score);
-      Ball.PosX = Area.width - Ball.width;
-      Ball.PosY = Ball.PosY;
-      Ball.SpeedX = 0;
-      Ball.SpeedY = 0;
-      Ball.Update();
+      stopBall();
     }
   }
   Ball.PosY += Ball.SpeedY;
@@ -267,8 +259,10 @@ function setSpeed(direction, racket) {
 //счет
 function setScore(player, score) {
   var playerScore = document.querySelector('.player'+ player +'-score');
-  playerScore.textContent = score;
+  playerScore.innerHTML = score;
 }
+
+
 
 //старт
 function loadGame() {
@@ -296,6 +290,23 @@ function stopBall() {
   Ball.SpeedY = 0;
   Ball.Update();
 }
+function goalBall(player) {
+  if ((Ball.PosX + Ball.width > Area.width) || (Ball.PosX < Area.width)) {
+    if (player === 1) {
+    Ball.PosX = 0;
+    Ball.PosY = Ball.PosY;
+    Ball.SpeedX = 0;
+    Ball.SpeedY = 0;
+  } else {
+    Ball.PosX = Area.width - Ball.width;
+    Ball.PosY = Ball.PosY;
+    Ball.SpeedX = 0;
+    Ball.SpeedY = 0;
+  }
+  Ball.Update();
+  }
+
+}
 
 function resetAllPositions() {
   stopBall();
@@ -304,6 +315,8 @@ function resetAllPositions() {
   Racket2.PosX = Area.width - Racket2.width;
   Racket2.PosY = Area.height / 2 - Racket2.height / 2;
   //score обнулить
+  player1Score = 0;
+  player2Score = 0;
   document.querySelector('.player1-score').textContent = '0';
 	document.querySelector('.player2-score').textContent = '0';
 }
