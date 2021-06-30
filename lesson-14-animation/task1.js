@@ -73,8 +73,8 @@ var Area =
 
 var Ball =
   {
-    PosX: Area.width / 2 - 20,
-    PosY: Area.height / 2 - 20,
+    PosX: 0,
+    PosY: 0,
     SpeedX: 4,
     SpeedY: 3,
     width: 40,
@@ -89,7 +89,7 @@ var Ball =
 var Racket1 =
   {
     PosX: 0,
-    PosY: Area.height / 2 - 70,
+    PosY: 0,
     SpeedY: 0,
     width: 16,
     height: 140,
@@ -108,8 +108,8 @@ var Racket1 =
 
 var Racket2 =
   {
-    PosX: Area.width - 16,
-    PosY: Area.height / 2 - 70,
+    PosX: 0,
+    PosY: 0,
     SpeedY: 0,
     width: 16,
     height: 140,
@@ -126,11 +126,18 @@ var Racket2 =
     },
   }
 
+
+
+  startRacketsPos();
+
 //движение мяча
 //отталкивание от стены
 //отталктвание от ракеток
 //фиксация мяча у стены
 function throwBall() {
+  var player1Score = 0;
+  var player2Score = 0;
+
   Ball.PosX += Ball.SpeedX;
   // слева
   if (Ball.PosX < 0 + Racket1.width) {
@@ -138,10 +145,12 @@ function throwBall() {
       Ball.SpeedX = -Ball.SpeedX;
       Ball.PosX = 0 + Racket1.width;
     } else {
-      Ball.SpeedX = 0;
-      Ball.SpeedY = 0;
+      player2Score++;
+      setScore(2, player2Score);
       Ball.PosX = 0;
       Ball.PosY = Ball.PosY;
+      Ball.SpeedX = 0;
+      Ball.SpeedY = 0;
       Ball.Update();
     }
   }
@@ -151,10 +160,12 @@ function throwBall() {
       Ball.SpeedX = -Ball.SpeedX;
       Ball.PosX = Area.width - Racket2.width - Ball.width;
     } else {
-      Ball.SpeedX = 0;
-      Ball.SpeedY = 0;
+      player1Score++;
+      setScore(1, player1Score);
       Ball.PosX = Area.width - Ball.width;
       Ball.PosY = Ball.PosY;
+      Ball.SpeedX = 0;
+      Ball.SpeedY = 0;
       Ball.Update();
     }
   }
@@ -192,6 +203,13 @@ function randomBallStart() {
 }
 
 //движение ракеток
+function startRacketsPos() {
+  Racket1.PosX = 0;
+  Racket1.PosY = Area.height / 2 - Racket1.height / 2;
+  Racket2.PosX = Area.width - Racket2.width;
+  Racket2.PosY = Area.height / 2 - Racket2.height / 2;
+}
+
 function moveRackets() {
   Racket1.Move();
   Racket2.Move();
@@ -247,8 +265,10 @@ function setSpeed(direction, racket) {
 }
 
 //счет
-//выигрыш
-
+function setScore(player, score) {
+  var playerScore = document.querySelector('.player'+ player +'-score');
+  playerScore.textContent = score;
+}
 
 //старт
 function loadGame() {
@@ -260,10 +280,7 @@ function loadGame() {
 stopBall();
 
 function Start() {
-  Racket1.PosX = 0;
-  Racket1.PosY = Area.height / 2 - Racket1.height / 2;
-  Racket2.PosX = Area.width - Racket2.width;
-  Racket2.PosY = Area.height / 2 - Racket2.height / 2;
+  startRacketsPos();
   randomBallStart();
 }
 
@@ -287,8 +304,8 @@ function resetAllPositions() {
   Racket2.PosX = Area.width - Racket2.width;
   Racket2.PosY = Area.height / 2 - Racket2.height / 2;
   //score обнулить
-  // document.querySelector('#player1-score').textContent = '0';
-	// document.querySelector('#player2-score').textContent = '0';
+  document.querySelector('.player1-score').textContent = '0';
+	document.querySelector('.player2-score').textContent = '0';
 }
 
 document.addEventListener('DOMContentLoaded', loadGame);
