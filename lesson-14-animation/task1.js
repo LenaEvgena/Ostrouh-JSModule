@@ -50,7 +50,7 @@ function createDesk() {
   div.style.height = 400 + 'px';
   div.appendChild( createGameElement('Racket1', 'racket1', 16, 140, 'racket') );
   div.appendChild( createGameElement('Racket2', 'racket2', 16, 140, 'racket') );
-  div.appendChild( createGameElement('Ball', 'Ball', 40, 40) );
+  div.appendChild( createGameElement('Ball', 'ball', 40, 40) );
 
   return div;
 }
@@ -80,12 +80,11 @@ var Ball =
     width: 40,
     height: 40,
     Update: function () {
-      var Ball = document.getElementById('Ball');
+      var Ball = document.getElementById('ball');
       Ball.style.left = this.PosX + "px";
       Ball.style.top = this.PosY + "px";
     },
   };
-  Ball.Update();
 
 var Racket1 =
   {
@@ -177,7 +176,20 @@ Racket1.Update();
 Racket2.Update();
 
 //рандомный вылет
+function randomBallStart() {
+  Ball.PosX = Area.width / 2 - Ball.width / 2;
+  Ball.PosY = Area.height / 2 - Ball.height / 2;
 
+  var direction = Math.random();
+
+  if(direction > 0.5) {
+    Ball.SpeedX = Math.floor(Math.random() * 5 + 3);
+    Ball.SpeedY = Math.floor(Math.random() * 5 + 3);
+  } else {
+    Ball.SpeedX = -1 * Math.floor(Math.random() * 5 + 3);
+    Ball.SpeedY = -1 * Math.floor(Math.random() * 5 + 3);
+  }
+}
 
 //движение ракеток
 function moveRackets() {
@@ -239,17 +251,20 @@ function setSpeed(direction, racket) {
 
 
 //старт
-var animatedRackets = setInterval(function fn() {
-  moveRackets(Racket1);
-  moveRackets(Racket2);
-}, 1000/60);
-
-function Start() {
-  clearInterval(animatedRackets);
+function loadGame() {
   throwBall();
   moveRackets(Racket1);
   moveRackets(Racket2);
-  requestAnimationFrame(Start);
+  requestAnimationFrame(loadGame);
+}
+stopBall();
+
+function Start() {
+  Racket1.PosX = 0;
+  Racket1.PosY = Area.height / 2 - Racket1.height / 2;
+  Racket2.PosX = Area.width - Racket2.width;
+  Racket2.PosY = Area.height / 2 - Racket2.height / 2;
+  randomBallStart();
 }
 
 function stopRackets() {
@@ -257,24 +272,54 @@ function stopRackets() {
   Racket2.Stop();
 }
 
-function resetPositions() {
+function stopBall() {
   Ball.PosX = Area.width / 2 - Ball.width / 2;
   Ball.PosY = Area.height / 2 - Ball.height / 2;
+  Ball.SpeedX = 0;
+  Ball.SpeedY = 0;
+  Ball.Update();
+}
+
+function resetAllPositions() {
+  stopBall();
   Racket1.PosX = 0;
   Racket1.PosY = Area.height / 2 - Racket1.height / 2;
   Racket2.PosX = Area.width - Racket2.width;
   Racket2.PosY = Area.height / 2 - Racket2.height / 2;
-  //убрать таймер
-  cancelAnimationFrame(Start);
   //score обнулить
+  // document.querySelector('#player1-score').textContent = '0';
+	// document.querySelector('#player2-score').textContent = '0';
 }
 
+document.addEventListener('DOMContentLoaded', loadGame);
 document.addEventListener('keydown', getSpeed);
 document.addEventListener('keyup', stopRackets);
 document.querySelector('#start').addEventListener('click', Start);
-document.querySelector('#reset').addEventListener('click', resetPositions);
+document.querySelector('#reset').addEventListener('click', resetAllPositions);
 
 
 
+// function score() {
+//   var sc = 0;
+//   return function(correct) {
+//     if (correct) {
+//       sc++;
+//     }
+//     return sc;
+//   }
+// }
 
+// var keepScore = score();
+// Question.prototype.checkAnswer = function(ans, callback) {
+//   var sc;
 
+//   if (ans === this.correct) {
+//     console.log('Correct answer!');
+//     sc = callback(true);
+//   } else {
+//     console.log('Wrong answer. Try again :)');
+//     sc = callback(false);
+//   }
+
+//   this.displayScore(sc);
+// };
