@@ -187,12 +187,37 @@ function randomBallStart() {
   var direction = Math.random();
 
   if(direction > 0.5) {
-    Ball.SpeedX = Math.floor(Math.random() * 5 + 3);
-    Ball.SpeedY = Math.floor(Math.random() * 5 + 3);
+    Ball.SpeedX = Math.floor(Math.random() * 4 + 3);
+    Ball.SpeedY = Math.floor(Math.random() * 4 + 3);
   } else {
-    Ball.SpeedX = -1 * Math.floor(Math.random() * 5 + 3);
-    Ball.SpeedY = -1 * Math.floor(Math.random() * 5 + 3);
+    Ball.SpeedX = -1 * Math.floor(Math.random() * 4 + 3);
+    Ball.SpeedY = -1 * Math.floor(Math.random() * 4 + 3);
   }
+}
+
+//центрирование мяча
+function stopBall() {
+  Ball.PosX = Area.width / 2 - Ball.width / 2;
+  Ball.PosY = Area.height / 2 - Ball.height / 2;
+  Ball.SpeedX = 0;
+  Ball.SpeedY = 0;
+  Ball.Update();
+}
+
+//фиксация мяча у стены
+function goalBall(player) {
+  if (player === 1) {
+    Ball.PosX = 0;
+    Ball.PosY = Ball.PosY;
+    Ball.SpeedX = 0;
+    Ball.SpeedY = 0;
+  } else {
+    Ball.PosX = Area.width - Ball.width;
+    Ball.PosY = Ball.PosY;
+    Ball.SpeedX = 0;
+    Ball.SpeedY = 0;
+  }
+  Ball.Update();
 }
 
 //начальная позиция ракеток
@@ -203,7 +228,7 @@ function startRacketsPos() {
   Racket2.PosY = Area.height / 2 - Racket2.height / 2;
 }
 
-//движение ракеток и установка скорости
+//движение ракеток
 function moveRackets() {
   Racket1.Move();
   Racket2.Move();
@@ -231,6 +256,12 @@ function checkRacketsPosition(racket) {
   racket.Update();
 }
 
+function stopRackets() {
+  Racket1.Stop();
+  Racket2.Stop();
+}
+
+//установка скорости ракеток
 function getSpeed(event) {
   event.preventDefault();
   switch (event.keyCode) {
@@ -276,36 +307,6 @@ stopBall();
 function Start() {
   startRacketsPos();
   randomBallStart();
-}
-
-function stopRackets() {
-  Racket1.Stop();
-  Racket2.Stop();
-}
-
-//центрирование мяча
-function stopBall() {
-  Ball.PosX = Area.width / 2 - Ball.width / 2;
-  Ball.PosY = Area.height / 2 - Ball.height / 2;
-  Ball.SpeedX = 0;
-  Ball.SpeedY = 0;
-  Ball.Update();
-}
-
-//фиксация мяча у стены
-function goalBall(player) {
-  if (player === 1) {
-    Ball.PosX = 0;
-    Ball.PosY = Ball.PosY;
-    Ball.SpeedX = 0;
-    Ball.SpeedY = 0;
-  } else {
-    Ball.PosX = Area.width - Ball.width;
-    Ball.PosY = Ball.PosY;
-    Ball.SpeedX = 0;
-    Ball.SpeedY = 0;
-  }
-  Ball.Update();
 }
 
 //сброс всех позиций
