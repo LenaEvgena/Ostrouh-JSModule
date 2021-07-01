@@ -311,10 +311,7 @@ function goalBall(player) {
 //сброс всех позиций
 function resetAllPositions() {
   stopBall();
-  Racket1.PosX = 0;
-  Racket1.PosY = Area.height / 2 - Racket1.height / 2;
-  Racket2.PosX = Area.width - Racket2.width;
-  Racket2.PosY = Area.height / 2 - Racket2.height / 2;
+  startRacketsPos();
   //score обнулить
   player1Score = 0;
   player2Score = 0;
