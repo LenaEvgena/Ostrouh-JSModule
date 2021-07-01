@@ -316,7 +316,7 @@ function resetAllPositions() {
   player1Score = 0;
   player2Score = 0;
   document.querySelector('.player1-score').textContent = '0';
-	document.querySelector('.player2-score').textContent = '0';
+  document.querySelector('.player2-score').textContent = '0';
 }
 
 document.addEventListener('DOMContentLoaded', loadGame);
