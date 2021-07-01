@@ -126,18 +126,17 @@ var Racket2 =
     },
   }
 
-var player1Score = 0;
-var player2Score = 0;
+var player1Score = 0;//счет первого игрока
+var player2Score = 0;//счет второго игрока
 
 startRacketsPos();
 
 //движение мяча
 //отталкивание от стены
 //отталктвание от ракеток
-//фиксация мяча у стены
 function throwBall() {
   Ball.PosX += Ball.SpeedX;
-  // слева
+  // вылетел ли мяч слева
   if (Ball.PosX < 0 + Racket1.width) {
     if (Ball.PosY + Ball.height > Racket1.PosY && Ball.PosY < Racket1.PosY + Racket1.height) {//мяч напротив ракетки
       Ball.SpeedX = -Ball.SpeedX;
@@ -149,14 +148,14 @@ function throwBall() {
     player2Score++;
     setScore(2, player2Score);
   }
-  //справа
+  //вылетел ли мяч справа
   if (Ball.PosX + Ball.width > Area.width - Racket2.width) {
     if (Ball.PosY + Ball.height > Racket2.PosY && Ball.PosY < Racket2.PosY + Racket2.height) {//мяч напротив ракетки
       Ball.SpeedX = -Ball.SpeedX;
       Ball.PosX = Area.width - Racket2.width - Ball.width;
     }
   }
-  if (Ball.PosX + Ball.width > Area.width) {
+  if (Ball.PosX + Ball.width > Area.width) {//мяч вне поля
     goalBall(2);
     player1Score++;
     setScore(1, player1Score);
@@ -180,7 +179,7 @@ Ball.Update();
 Racket1.Update();
 Racket2.Update();
 
-//рандомный вылет
+//рандомный вылет мяча
 function randomBallStart() {
   Ball.PosX = Area.width / 2 - Ball.width / 2;
   Ball.PosY = Area.height / 2 - Ball.height / 2;
@@ -196,7 +195,7 @@ function randomBallStart() {
   }
 }
 
-//движение ракеток
+//начальная позиция ракеток
 function startRacketsPos() {
   Racket1.PosX = 0;
   Racket1.PosY = Area.height / 2 - Racket1.height / 2;
@@ -204,6 +203,7 @@ function startRacketsPos() {
   Racket2.PosY = Area.height / 2 - Racket2.height / 2;
 }
 
+//движение ракеток и установка скорости
 function moveRackets() {
   Racket1.Move();
   Racket2.Move();
@@ -283,6 +283,7 @@ function stopRackets() {
   Racket2.Stop();
 }
 
+//центрирование мяча
 function stopBall() {
   Ball.PosX = Area.width / 2 - Ball.width / 2;
   Ball.PosY = Area.height / 2 - Ball.height / 2;
@@ -291,6 +292,7 @@ function stopBall() {
   Ball.Update();
 }
 
+//фиксация мяча у стены
 function goalBall(player) {
   if (player === 1) {
     Ball.PosX = 0;
@@ -306,6 +308,7 @@ function goalBall(player) {
   Ball.Update();
 }
 
+//сброс всех позиций
 function resetAllPositions() {
   stopBall();
   Racket1.PosX = 0;
