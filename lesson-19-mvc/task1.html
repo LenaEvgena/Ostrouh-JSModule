@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="task1.js"></script>
+  <style>
+    .container {
+      display: flex;
+      flex-direction: column;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+    .btn {
+      height: 70px;
+      margin: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      border: 3px solid;
+      cursor: pointer;
+    }
+    .info {
+      width: 350px;
+      height: 100px;
+      margin: 0 auto;
+      margin-top: 30px;
+      font-size: 16px;
+      font-weight: bold;
+      border: 3px solid;
+      padding: 10px;
+    }
+  </style>
+
+</head>
+<body>
+  <div class="container">
+    <button id="addV" class="btn" onclick='addDrink()'>Ввод информации о напитке</button>
+    <button id="getV" class="btn" onclick='getDrink()'>Получение информации о напитке</button>
+    <button id="delV" class="btn" onclick='removeDrink()'>Удаление информации о напитке</button>
+    <button id="getK" class="btn" onclick='showDrinks()'>Перечень всех напитков</button>
+    <div class="info"></div>
+  </div>
+
+  <script>
+    'use strict';
+
+    var drinkStorage = new HashStorage();
+    var info = document.querySelector('.info');
+
+    function addDrink() {
+      var drinkName = prompt("Введите название напитка").toLowerCase().trim();
+
+      if (drinkName !== null) {
+        var isAlcohol = (confirm("Напиток алкогольный?")) ? 'алкогольный' : 'безалкогольный';
+        var drinkRecipe = prompt("Рецепт...");
+        info.textContent = 'Напиток ' + drinkName + ' сохранен в базе!';
+        drinkStorage.addValue(drinkName, {drinkName, alcohol: isAlcohol, recipe: drinkRecipe,});
+      }
+    }
+
+    function getDrink() {
+      var drinkName = prompt("Введите название напитка").toLowerCase().trim();;
+      var drink = drinkStorage.getValue(drinkName);
+      if (drink) {
+        info.textContent = 'Напиток ' + drinkName + ': ' + drink.alcohol + ', рецепт: ' + drink.recipe;
+      } else {
+        info.textContent = 'Ошибка! Такого напитка нет!';
+      }
+    }
+
+    function removeDrink() {
+      var drinkName = prompt("Введите название напитка");
+      drinkStorage.deleteValue(drinkName);
+      info.textContent = 'Напиток ' + drinkName + ' удален!';
+    }
+
+    function showDrinks() {
+      info.textContent = 'В базе сохранены следующие напитки: ' + drinkStorage.getKeys();
+    }
+
+  </script>
+</body>
+</html>
