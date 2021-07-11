@@ -69,6 +69,11 @@
     var drinkStorage = new LocalStorage('drinks');
     var foodStorage = new LocalStorage('food');
 
+    window.onload = function() {
+      drinkStorage.reset();
+      foodStorage.reset();
+    };
+
     function addDrink() {
       var drinkName = prompt('Введите название напитка').toLowerCase().trim();
       var Hash = {};
