@@ -6,10 +6,155 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ENCYCLO</title>
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-  <style></style>
+  <style>
+    a {
+      display: flex;
+    }
+  </style>
 </head>
 <body>
-  <div id="wrapper" class="wrapper"></div>
-  <script src= "script.js"></script>
+  <div class="page">
+    <h1>Энциклопедия</h1>
+    <section id="main">
+      <p class="main_info">
+        В данной энциклопедии вы найдете описание наиболее
+        известных марок мотоциклов
+      </p>
+      <p class="main_info"><a href="#" onclick="switchToMenu()">Список статей здесь</a></p>
+    </section>
+    <h2>Оглавление</h2>
+    <section id="moto_list"></section>
+    <input id='button' type="button" value="На главную" onclick="switchToMain()">
+    <section id="moto_item"></section>
+    <input id='button' type="button" value="На главную" onclick="switchToMain()">
+  </div>
+
+  <script>
+
+    window.onhashchange = renderNewState;
+    const AjaxHandlerScript = "http://fe.it-academy.by/AjaxStringStorage2.php";
+
+    let articles = [
+      {title: 'Aprilia', id: 'aprilia'},
+      {title: 'Beta', id: 'beta'},
+      {title: 'BMW', id: 'bmw'},
+      {title: 'Ducati', id: 'ducati'},
+      {title: 'Gasgas', id: 'gasgas'},
+      {title: 'Harley-Davidson', id: 'harley'},
+      {title: 'Honda', id: 'honda'},
+      {title: 'Husqvarna', id: 'husqvarna'},
+      {title: 'Kawasaki', id: 'kawasaki'},
+      {title: 'KTM', id: 'ktm'},
+      {title: 'Suzuki', id: 'suzuki'},
+      {title: 'Triumph', id: 'triumph'},
+      {title: 'Yamaha', id: 'yamaha'},
+    ];
+
+    update();
+    function update() {
+      $.ajax({
+        url: AjaxHandlerScript,
+        type: 'POST',
+        datatype: 'json',
+        data: {
+          f: 'READ',
+          n: 'OSTROUH_ARTICLES'},
+          cache: false,
+          success: motoListReady,
+          error: errorHandler
+      })
+    };
+
+    function motoListReady(data) {
+      console.log(data);
+      let articlesA = JSON.parse(data.result).sort(sortByName);
+      let optionsString = "";
+      let capitalLetters = [];
+      for (let i = 0; i < articlesA.length; i++) {
+        let article = articlesA[i];
+        let firstLetter = article.title.substr(0, 1);
+        optionsString += "\n<a href=# id="+ article.id +" onclick='switchToArticle(event)'>" + article.title + "</a>";
+      }
+      document.getElementById('moto_list').innerHTML = optionsString;
+      console.log("Сформированы строки:", optionsString);
+
+      function sortByName(a,b) {
+        if (a.name < b.name) return -1;
+        if (a.name > b.name) return 1;
+        return 0;
+      }
+    };
+
+    function errorHandler(jqXHR, StatusStr, ErrorStr) {
+      alert(StatusStr + ' ' + ErrorStr);
+    };
+
+
+
+
+
+
+
+
+
+
+
+    //SPA
+    function renderNewState() {
+      const hash = window.location.hash;
+      let state = decodeURIComponent(hash.substr(1));
+      if (state === '') {
+        state = {page: 'Main'};
+      } else {
+        state = JSON.parse(state);
+      }
+
+      let page = '';
+
+      switch (state.page) {
+        case 'Main':
+      //     page += '<h1>Энциклопедия</h1>';
+      //     page += '<section id="main"><p class="main_info">В данной энциклопедии вы найдете описание наиболее' +
+      //     'известных марок мотоциклов</p>';
+      //     page += '<p class="main_info"><a href="#list" onclick="switchToMenu()">Список статей здесь</a></p></section>';
+          break;
+        case 'Menu':
+          page += '<h2>Оглавление</h2>';
+          page += '<section id="moto_list"></section>';
+          page += '<input id="button" type="button" value="На главную" onclick="switchToMain()">';
+          break;
+        case 'Article':
+      //     page += '<section id="moto_item"></section>';
+      //     page += '<input id="button" type="button" value="На главную" onclick="switchToMain()">';
+          break;
+      }
+      // document.querySelector('.page').innerHTML = page;
+    }
+
+    function switchToState(state) {
+      location.hash = encodeURIComponent(JSON.stringify(state));
+    }
+
+    function switchToMain(state) {
+      switchToState({page: 'Main'});
+    }
+
+    function switchToMenu(state) {
+      switchToState({page: 'Menu'});
+    }
+
+    function switchToArticle(state) {
+      switchToState({page: 'Article'});
+    }
+    renderNewState();
+
+
+
+
+
+    </script>
+    <!-- <script src= "script.js"></script> -->
+
+
 </body>
 </html>
