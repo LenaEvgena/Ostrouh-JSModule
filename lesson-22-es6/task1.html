@@ -24,8 +24,8 @@
     <h1>Энциклопедия</h1>
     <section id="main">
       <p class="main_info">
-        В данной энциклопедии вы найдете описание наиболее
-        известных марок мотоциклов
+        В данной энциклопедии вы найдете информацию о наиболее
+        известных марках мотоциклов
       </p>
       <p class="main_info"><a href="#" onclick="switchToMenu()">Список статей здесь</a></p>
     </section>
@@ -33,7 +33,6 @@
     <section id="moto_list"></section>
     <input id='button' type="button" value="На главную" onclick="switchToMain()">
     <section id="moto_item"></section>
-    <input id='button' type="button" value="На главную" onclick="switchToMain()">
   </div>
 
   <script>
@@ -100,7 +99,7 @@
         div.appendChild(p);
         moto_list.appendChild(div);
       }
-      console.log(capitalLetters);
+      // console.log(capitalLetters);
 
       function sortByName(a,b) {
         if (a.name < b.name) return -1;
@@ -143,9 +142,9 @@
       //     page += '<p class="main_info"><a href="#list" onclick="switchToMenu()">Список статей здесь</a></p></section>';
           break;
         case 'Menu':
-          page += '<h2>Оглавление</h2>';
-          page += '<section id="moto_list"></section>';
-          page += '<input id="button" type="button" value="На главную" onclick="switchToMain()">';
+          // page += '<h2>Оглавление</h2>';
+          // page += '<section id="moto_list"></section>';
+          // page += '<input id="button" type="button" value="На главную" onclick="switchToMain()">';
           break;
         case 'Article':
       //     page += '<section id="moto_item"></section>';
