@@ -10,6 +10,13 @@
     a {
       display: flex;
     }
+    #moto_list {
+      display: flex;
+      flex-wrap: wrap;
+    }
+    #moto_list div {
+      padding: 15px;
+    }
   </style>
 </head>
 <body>
@@ -66,17 +73,34 @@
     };
 
     function motoListReady(data) {
-      console.log(data);
+      // console.log(data);
       let articlesA = JSON.parse(data.result).sort(sortByName);
-      let optionsString = "";
       let capitalLetters = [];
+
       for (let i = 0; i < articlesA.length; i++) {
+        const moto_list = document.getElementById('moto_list');
         let article = articlesA[i];
         let firstLetter = article.title.substr(0, 1);
-        optionsString += "\n<a href=# id="+ article.id +" onclick='switchToArticle(event)'>" + article.title + "</a>";
+
+        if (!capitalLetters.includes(firstLetter)) {
+          capitalLetters.push(firstLetter);
+          var div = document.createElement("div");
+          const letter = document.createElement("h3");
+          letter.innerHTML = firstLetter;
+          div.appendChild(letter);
+          moto_list.appendChild(div);
+        }
+
+        const p = document.createElement("p");
+        const a = document.createElement("a");
+        a.setAttribute("href", '#');
+        a.id = article.id;
+        a.innerHTML = article.title;
+        p.appendChild(a);
+        div.appendChild(p);
+        moto_list.appendChild(div);
       }
-      document.getElementById('moto_list').innerHTML = optionsString;
-      console.log("Сформированы строки:", optionsString);
+      console.log(capitalLetters);
 
       function sortByName(a,b) {
         if (a.name < b.name) return -1;
