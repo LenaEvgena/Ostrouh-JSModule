@@ -10,10 +10,10 @@
     a {
       display: flex;
     }
-    .main_info a {
+    a {
       text-decoration: underline;
     }
-    .main_info a:hover {
+    a:hover {
       cursor: pointer;
     }
 
@@ -47,6 +47,7 @@
     window.onhashchange = renderNewState;
     const AjaxHandlerScript = "http://fe.it-academy.by/AjaxStringStorage2.php";
     let articleNavList = '';
+    let articleID = '';
 
 
     let articles = [
@@ -81,7 +82,6 @@
     };
 
     function motoListReady(data) {
-      // console.log(data);
       let articlesA = JSON.parse(data.result).sort(sortByName);
       let capitalLetters = [];
 
@@ -102,14 +102,14 @@
 
         const p = document.createElement("p");
         const a = document.createElement("a");
-        a.setAttribute("href", '#');
         a.id = article.id;
+        a.setAttribute('onclick', 'switchToArticle()');
         a.innerHTML = article.title;
         p.appendChild(a);
         div.appendChild(p);
         moto_list.appendChild(div);
       }
-      console.log(articleNavList);
+      // console.log(articleNavList);
 
       function sortByName(a,b) {
         if (a.name < b.name) return -1;
@@ -118,10 +118,22 @@
       }
     };
 
+    function openArticle() {
+      $.ajax({
+        url: `htmlPages/${articleID}.html`,
+        type: 'GET',
+        dataType: 'html',
+        success: DataLoaded,
+        error: errorHandler
+      })
+    }
+    function DataLoaded(data) {
+      document.querySelector('.page').innerHTML = data;
+    }
+
     function errorHandler(jqXHR, StatusStr, ErrorStr) {
       alert(StatusStr + ' ' + ErrorStr);
     };
-
 
     //SPA
     function renderNewState() {
@@ -143,14 +155,15 @@
           page += '<p class="main_info"><a onclick="switchToMenu()">Список статей здесь</a></p></section>';
           break;
         case 'Menu':
-          page += '<h2>Оглавление</h2>';
           update();
+          page += '<h2>Оглавление</h2>';
           page += '<section id="moto_list"></section>';
           page += '<input id="button" type="button" value="На главную" onclick="switchToMain()">';
           break;
-        case 'Article':
+        case `Article${articleID}`:
           page += '<section id="moto_item"></section>';
-          page += '<input id="button" type="button" value="На главную" onclick="switchToMain()">';
+          openArticle();
+          // page += '<input id="button" type="button" value="На главную" onclick="switchToMain()">';
           break;
       }
       document.querySelector('.page').innerHTML = page;
@@ -169,7 +182,8 @@
     }
 
     function switchToArticle(state) {
-      switchToState({page: 'Article'});
+      articleID = event.target.id;
+      switchToState({page: `Article${articleID}`});
     }
     renderNewState();
 
