@@ -10,6 +10,13 @@
     a {
       display: flex;
     }
+    .main_info a {
+      text-decoration: underline;
+    }
+    .main_info a:hover {
+      cursor: pointer;
+    }
+
     #moto_list {
       display: flex;
       flex-wrap: wrap;
@@ -21,24 +28,26 @@
 </head>
 <body>
   <div class="page">
-    <h1>Энциклопедия</h1>
+    <!-- <h1>Энциклопедия</h1>
     <section id="main">
       <p class="main_info">
         В данной энциклопедии вы найдете информацию о наиболее
         известных марках мотоциклов
       </p>
-      <p class="main_info"><a href="#" onclick="switchToMenu()">Список статей здесь</a></p>
-    </section>
-    <h2>Оглавление</h2>
-    <section id="moto_list"></section>
-    <input id='button' type="button" value="На главную" onclick="switchToMain()">
-    <section id="moto_item"></section>
+      <p class="main_info"><a href="" onclick="switchToMenu()">Список статей здесь</a></p>
+    </section> -->
+    <!-- <h2>Оглавление</h2> -->
+    <!-- <section id="moto_list"></section> -->
+    <!-- <input id='button' type="button" value="На главную" onclick="switchToMain()"> -->
+    <!-- <section id="moto_item"></section> -->
   </div>
 
   <script>
 
     window.onhashchange = renderNewState;
     const AjaxHandlerScript = "http://fe.it-academy.by/AjaxStringStorage2.php";
+    let articleNavList = '';
+
 
     let articles = [
       {title: 'Aprilia', id: 'aprilia'},
@@ -56,7 +65,7 @@
       {title: 'Yamaha', id: 'yamaha'},
     ];
 
-    update();
+    // update();
     function update() {
       $.ajax({
         url: AjaxHandlerScript,
@@ -80,6 +89,7 @@
         const moto_list = document.getElementById('moto_list');
         let article = articlesA[i];
         let firstLetter = article.title.substr(0, 1);
+        articleNavList += article.title +"\n";
 
         if (!capitalLetters.includes(firstLetter)) {
           capitalLetters.push(firstLetter);
@@ -99,7 +109,7 @@
         div.appendChild(p);
         moto_list.appendChild(div);
       }
-      // console.log(capitalLetters);
+      console.log(articleNavList);
 
       function sortByName(a,b) {
         if (a.name < b.name) return -1;
@@ -111,15 +121,6 @@
     function errorHandler(jqXHR, StatusStr, ErrorStr) {
       alert(StatusStr + ' ' + ErrorStr);
     };
-
-
-
-
-
-
-
-
-
 
 
     //SPA
@@ -136,22 +137,23 @@
 
       switch (state.page) {
         case 'Main':
-      //     page += '<h1>Энциклопедия</h1>';
-      //     page += '<section id="main"><p class="main_info">В данной энциклопедии вы найдете описание наиболее' +
-      //     'известных марок мотоциклов</p>';
-      //     page += '<p class="main_info"><a href="#list" onclick="switchToMenu()">Список статей здесь</a></p></section>';
+          page += '<h1>Энциклопедия</h1>';
+          page += '<section id="main"><p class="main_info">В данной энциклопедии вы найдете описание наиболее' +
+          ' известных марок мотоциклов</p>';
+          page += '<p class="main_info"><a onclick="switchToMenu()">Список статей здесь</a></p></section>';
           break;
         case 'Menu':
-          // page += '<h2>Оглавление</h2>';
-          // page += '<section id="moto_list"></section>';
-          // page += '<input id="button" type="button" value="На главную" onclick="switchToMain()">';
+          page += '<h2>Оглавление</h2>';
+          update();
+          page += '<section id="moto_list"></section>';
+          page += '<input id="button" type="button" value="На главную" onclick="switchToMain()">';
           break;
         case 'Article':
-      //     page += '<section id="moto_item"></section>';
-      //     page += '<input id="button" type="button" value="На главную" onclick="switchToMain()">';
+          page += '<section id="moto_item"></section>';
+          page += '<input id="button" type="button" value="На главную" onclick="switchToMain()">';
           break;
       }
-      // document.querySelector('.page').innerHTML = page;
+      document.querySelector('.page').innerHTML = page;
     }
 
     function switchToState(state) {
