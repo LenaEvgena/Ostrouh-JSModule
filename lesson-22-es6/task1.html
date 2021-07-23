@@ -9,25 +9,22 @@
   <style>
     a {
       display: flex;
-    }
-    a {
       text-decoration: underline;
     }
     a:hover {
       cursor: pointer;
     }
-
+    h2 {
+      display: flex;
+      justify-content: center;
+      text-transform: uppercase;
+    }
     #moto_list {
       display: flex;
       flex-wrap: wrap;
     }
     #moto_list div {
       padding: 15px;
-    }
-    h2 {
-      display: flex;
-      justify-content: center;
-      text-transform: uppercase;
     }
   </style>
 </head>
@@ -43,7 +40,6 @@
     const AjaxHandlerScript = "http://fe.it-academy.by/AjaxStringStorage2.php";
     let articleNavList = '';
     let articleID = '';
-
 
     let articles = [
       {title: 'Aprilia', id: 'aprilia'},
@@ -182,14 +178,7 @@
       switchToState({page: `Article${articleID}`});
     }
     renderNewState();
-
-
-
-
-
     </script>
     <!-- <script src= "script.js"></script> -->
-
-
 </body>
 </html>
