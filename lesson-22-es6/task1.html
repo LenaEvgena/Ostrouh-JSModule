@@ -1,184 +1,206 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ENCYCLO</title>
-  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-  <style>
-    a {
-      display: flex;
-      text-decoration: underline;
-    }
-    a:hover {
-      cursor: pointer;
-    }
-    h2 {
-      display: flex;
-      justify-content: center;
-      text-transform: uppercase;
-    }
-    #moto_list {
-      display: flex;
-      flex-wrap: wrap;
-    }
-    #moto_list div {
-      padding: 15px;
-    }
-  </style>
-</head>
-<body>
-  <div class="page">
-    <section id="moto_item"></section>
-  </div>
-
-  <script>
-    'use strict';
-
-    window.onhashchange = renderNewState;
-    const AjaxHandlerScript = "http://fe.it-academy.by/AjaxStringStorage2.php";
-    let articleNavList = '';
-    let articleID = '';
-
-    let articles = [
-      {title: 'Aprilia', id: 'aprilia'},
-      {title: 'Beta', id: 'beta'},
-      {title: 'BMW', id: 'bmw'},
-      {title: 'Ducati', id: 'ducati'},
-      {title: 'Gasgas', id: 'gasgas'},
-      {title: 'Harley-Davidson', id: 'harley'},
-      {title: 'Honda', id: 'honda'},
-      {title: 'Husqvarna', id: 'husqvarna'},
-      {title: 'Kawasaki', id: 'kawasaki'},
-      {title: 'KTM', id: 'ktm'},
-      {title: 'Suzuki', id: 'suzuki'},
-      {title: 'Triumph', id: 'triumph'},
-      {title: 'Yamaha', id: 'yamaha'},
-    ];
-
-    function update() {
-      $.ajax({
-        url: AjaxHandlerScript,
-        type: 'POST',
-        datatype: 'json',
-        data: {
-          f: 'READ',
-          n: 'OSTROUH_ARTICLES'},
-          cache: false,
-          success: motoListReady,
-          error: errorHandler
-      })
-    };
-
-    function motoListReady(data) {
-      let articlesA = JSON.parse(data.result).sort(sortByName);
-      let capitalLetters = [];
-
-      for (let i = 0; i < articlesA.length; i++) {
-        const moto_list = document.getElementById('moto_list');
-        let article = articlesA[i];
-        let firstLetter = article.title.substr(0, 1);
-        articleNavList += article.title +"\n";
-
-        if (!capitalLetters.includes(firstLetter)) {
-          capitalLetters.push(firstLetter);
-          var div = document.createElement("div");
-          const letter = document.createElement("h3");
-          letter.innerHTML = firstLetter;
-          div.appendChild(letter);
-          moto_list.appendChild(div);
-        }
-
-        const p = document.createElement("p");
-        const a = document.createElement("a");
-        a.id = article.id;
-        a.setAttribute('onclick', 'switchToArticle()');
-        a.innerHTML = article.title;
-        p.appendChild(a);
-        div.appendChild(p);
-        moto_list.appendChild(div);
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>ENCYCLO</title>
+		<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+		<style>
+			a {
+				display: flex;
+				text-decoration: underline;
+			}
+			a:hover {
+				cursor: pointer;
+			}
+			h2 {
+				display: flex;
+				justify-content: center;
+				text-transform: uppercase;
+			}
+      /* .page {
+        display: flex;
+        flex-direction: column;
+      } */
+			#moto_list {
+				display: flex;
+				flex-wrap: wrap;
+			}
+			#moto_list div {
+				padding: 15px;
+			}
+      #moto_item {
+        width: calc(100% - 180px);
+        float: right;
       }
-      // console.log(articleNavList);
-
-      function sortByName(a,b) {
-        if (a.name < b.name) return -1;
-        if (a.name > b.name) return 1;
-        return 0;
+      .nav {
+        position: fixed;
+        top: 0;
+        left: 0;
       }
-    };
-
-    function openArticle() {
-      $.ajax({
-        url: `htmlPages/${articleID}.html`,
-        type: 'GET',
-        dataType: 'html',
-        success: DataLoaded,
-        error: errorHandler
-      })
-    }
-
-    function DataLoaded(data) {
-      document.querySelector('#moto_item').innerHTML = data;
-      // console.log(data);
-    }
-
-    function errorHandler(jqXHR, StatusStr, ErrorStr) {
-      alert(StatusStr + ' ' + ErrorStr);
-    };
-
-    //SPA
-    function renderNewState() {
-      const hash = window.location.hash;
-      let state = decodeURIComponent(hash.substr(1));
-      if (state === '') {
-        state = {page: 'Main'};
-      } else {
-        state = JSON.parse(state);
+      li {
+        list-style-type: none;
       }
+		</style>
+	</head>
+	<body>
+		<div class="page">
+			<section id="moto_item"></section>
+		</div>
 
-      let page = '';
+		<script>
+			"use strict"
 
-      switch (state.page) {
-        case 'Main':
-          page += '<h1>Энциклопедия</h1>';
-          page += '<section id="main"><p class="main_info">В данной энциклопедии вы найдете описание наиболее' +
-          ' известных марок мотоциклов</p>';
-          page += '<p class="main_info"><a onclick="switchToMenu()">Список статей здесь</a></p></section>';
-          break;
-        case 'Menu':
-          update();
-          page += '<h2>Оглавление</h2>';
-          page += '<section id="moto_list"></section>';
-          page += '<input id="button" type="button" value="На главную" onclick="switchToMain()">';
-          break;
-        case `Article${articleID}`:
-          openArticle();
-          page += '<section id="moto_item"></section>';
-          page += '<input id="button" type="button" value="На главную" onclick="switchToMain()">';
-          break;
-      }
-      document.querySelector('.page').innerHTML = page;
-    }
+			window.onhashchange = renderNewState
+			const AjaxHandlerScript = "http://fe.it-academy.by/AjaxStringStorage2.php"
+			let articleNavList = ""
+			let articleID = ""
 
-    function switchToState(state) {
-      location.hash = encodeURIComponent(JSON.stringify(state));
-    }
+			let articles = [
+				{ title: "Aprilia", id: "aprilia" },
+				{ title: "Beta", id: "beta" },
+				{ title: "BMW", id: "bmw" },
+				{ title: "Ducati", id: "ducati" },
+				{ title: "Gasgas", id: "gasgas" },
+				{ title: "Harley-Davidson", id: "harley" },
+				{ title: "Honda", id: "honda" },
+				{ title: "Husqvarna", id: "husqvarna" },
+				{ title: "Kawasaki", id: "kawasaki" },
+				{ title: "KTM", id: "ktm" },
+				{ title: "Suzuki", id: "suzuki" },
+				{ title: "Triumph", id: "triumph" },
+				{ title: "Yamaha", id: "yamaha" },
+			]
 
-    function switchToMain(state) {
-      switchToState({page: 'Main'});
-    }
+			function update() {
+				$.ajax({
+					url: AjaxHandlerScript,
+					type: "POST",
+					datatype: "json",
+					data: {
+						f: "READ",
+						n: "OSTROUH_ARTICLES",
+					},
+					cache: false,
+					success: motoListReady,
+					error: errorHandler,
+				})
+			}
 
-    function switchToMenu(state) {
-      switchToState({page: 'Menu'});
-    }
+			function motoListReady(data) {
+				let articlesA = JSON.parse(data.result).sort(sortByName)
+				let capitalLetters = []
 
-    function switchToArticle(state) {
-      articleID = event.target.id;
-      switchToState({page: `Article${articleID}`});
-    }
-    renderNewState();
-    </script>
-    <!-- <script src= "script.js"></script> -->
-</body>
+				for (let i = 0; i < articlesA.length; i++) {
+					const moto_list = document.getElementById("moto_list")
+					let article = articlesA[i]
+					let firstLetter = article.title.substr(0, 1)
+					articleNavList += '<li><a id="' + article.id + '" onclick="switchToArticle()">' +
+						article.title + '</a></li>';
+
+					if (!capitalLetters.includes(firstLetter)) {
+						capitalLetters.push(firstLetter)
+						var div = document.createElement("div")
+						const letter = document.createElement("h3")
+						letter.innerHTML = firstLetter
+						div.appendChild(letter)
+						moto_list.appendChild(div)
+					}
+
+					const p = document.createElement("p")
+					const a = document.createElement("a")
+					a.id = article.id
+					a.setAttribute("onclick", "switchToArticle()")
+					a.innerHTML = article.title
+					p.appendChild(a)
+					div.appendChild(p)
+					moto_list.appendChild(div)
+				}
+        articleNavList = '<aside class="nav"><ul>' + articleNavList + '</ul></aside>';
+				console.log(articleNavList)
+
+				function sortByName(a, b) {
+					if (a.name < b.name) return -1
+					if (a.name > b.name) return 1
+					return 0
+				}
+			}
+
+			function openArticle() {
+				$.ajax({
+					url: `htmlPages/${articleID}.html`,
+					type: "GET",
+					dataType: "html",
+					success: DataLoaded,
+					error: errorHandler,
+				})
+			}
+
+			function DataLoaded(data) {
+				document.querySelector("#moto_item").innerHTML = data
+				// console.log(data);
+			}
+
+			function errorHandler(jqXHR, StatusStr, ErrorStr) {
+				alert(StatusStr + " " + ErrorStr)
+			}
+
+			//SPA
+			function renderNewState() {
+				const hash = window.location.hash
+				let state = decodeURIComponent(hash.substr(1))
+				if (state === "") {
+					state = { page: "Main" }
+				} else {
+					state = JSON.parse(state)
+				}
+
+				let page = ""
+
+				switch (state.page) {
+					case "Main":
+						page += "<h1>Энциклопедия</h1>"
+						page +=
+							'<section id="main"><p class="main_info">В данной энциклопедии вы найдете описание наиболее' +
+							" известных марок мотоциклов</p>"
+						page +=
+							'<p class="main_info"><a onclick="switchToMenu()">Список статей здесь</a></p></section>'
+						break
+					case "Menu":
+						update()
+						page += "<h2>Оглавление</h2>"
+						page += '<section id="moto_list"></section>'
+						page +=
+							'<input id="button" type="button" value="На главную" onclick="switchToMain()">'
+						break
+					case `Article${articleID}`:
+						openArticle()
+						page += '<section id="moto_item"></section>';
+						page += articleNavList
+						break
+				}
+				document.querySelector(".page").innerHTML = page
+			}
+
+			function switchToState(state) {
+				location.hash = encodeURIComponent(JSON.stringify(state))
+			}
+
+			function switchToMain(state) {
+				switchToState({ page: "Main" })
+			}
+
+			function switchToMenu(state) {
+				switchToState({ page: "Menu" })
+			}
+
+			function switchToArticle(state) {
+				articleID = event.target.id
+				switchToState({ page: `Article${articleID}` })
+			}
+			renderNewState()
+		</script>
+		<!-- <script src= "script.js"></script> -->
+	</body>
 </html>
