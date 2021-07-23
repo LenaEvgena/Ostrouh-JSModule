@@ -24,25 +24,20 @@
     #moto_list div {
       padding: 15px;
     }
+    h2 {
+      display: flex;
+      justify-content: center;
+      text-transform: uppercase;
+    }
   </style>
 </head>
 <body>
   <div class="page">
-    <!-- <h1>Энциклопедия</h1>
-    <section id="main">
-      <p class="main_info">
-        В данной энциклопедии вы найдете информацию о наиболее
-        известных марках мотоциклов
-      </p>
-      <p class="main_info"><a href="" onclick="switchToMenu()">Список статей здесь</a></p>
-    </section> -->
-    <!-- <h2>Оглавление</h2> -->
-    <!-- <section id="moto_list"></section> -->
-    <!-- <input id='button' type="button" value="На главную" onclick="switchToMain()"> -->
-    <!-- <section id="moto_item"></section> -->
+    <section id="moto_item"></section>
   </div>
 
   <script>
+    'use strict';
 
     window.onhashchange = renderNewState;
     const AjaxHandlerScript = "http://fe.it-academy.by/AjaxStringStorage2.php";
@@ -66,7 +61,6 @@
       {title: 'Yamaha', id: 'yamaha'},
     ];
 
-    // update();
     function update() {
       $.ajax({
         url: AjaxHandlerScript,
@@ -127,8 +121,10 @@
         error: errorHandler
       })
     }
+
     function DataLoaded(data) {
-      document.querySelector('.page').innerHTML = data;
+      document.querySelector('#moto_item').innerHTML = data;
+      // console.log(data);
     }
 
     function errorHandler(jqXHR, StatusStr, ErrorStr) {
@@ -161,9 +157,9 @@
           page += '<input id="button" type="button" value="На главную" onclick="switchToMain()">';
           break;
         case `Article${articleID}`:
-          page += '<section id="moto_item"></section>';
           openArticle();
-          // page += '<input id="button" type="button" value="На главную" onclick="switchToMain()">';
+          page += '<section id="moto_item"></section>';
+          page += '<input id="button" type="button" value="На главную" onclick="switchToMain()">';
           break;
       }
       document.querySelector('.page').innerHTML = page;
