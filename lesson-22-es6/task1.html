@@ -138,11 +138,36 @@
 			}
 
       function createArticleList() {
+        if (articleNavList === '') {
+          $.ajax({
+					url: AjaxHandlerScript,
+					type: "POST",
+					datatype: "json",
+					data: {
+						f: "READ",
+						n: "OSTROUH_ARTICLES",
+					},
+					cache: false,
+					success: function(data) {
+            let articlesA = JSON.parse(data.result).sort(sortByName);
+            for (let i = 0; i < articlesA.length; i++) {
+              let article = articlesA[i];
+              articleNavList += '<li><a id="' + article.id + '" onclick="switchToArticle()">' +
+                article.title + '</a></li>';
+            }
+            articleNavList = '<ul>' + articleNavList + '</ul>';
+
+            let sidebar = document.querySelector("#nav");
+            document.querySelector("#nav").innerHTML = articleNavList;
+          },
+					error: errorHandler,
+				})
+        }
         let sidebar = document.querySelector("#nav");
         document.querySelector("#nav").innerHTML = articleNavList;
       }
 
-			function errorHandler(jqXHR, StatusStr, ErrorStr) {
+      function errorHandler(jqXHR, StatusStr, ErrorStr) {
 				alert(StatusStr + " " + ErrorStr);
 			}
 
@@ -155,7 +180,7 @@
 				} else {
 					state = JSON.parse(state);
 				}
-
+        if (state.page !== "Main" && state.page !== "Menu" && state.page !== " ") articleID = state.page;(state);
 				let page = "";
 
 				switch (state.page) {
@@ -174,7 +199,7 @@
 						page +=
 							'<input id="button" type="button" value="На главную" onclick="switchToMain()">';
 						break;
-					case `Article${articleID}`:
+					case `${articleID}`:
 						openArticle();
 						page += '<section id="moto_item"></section>';
 						page += '<aside id="nav"></aside>';
@@ -196,12 +221,11 @@
 			}
 
 			function switchToArticle(state) {
-        articleID = event.target.id;
-				switchToState({ page: `Article${articleID}` });
+          articleID = event.target.id;
+          switchToState({ page: `${articleID}` });
 			}
 
 			renderNewState();
 		</script>
-		<!-- <script src= "script.js"></script> -->
 	</body>
 </html>
