@@ -177,7 +177,7 @@
         let state = decodeURIComponent(hash.substr(1));
         (state === "") ? state = { page: "Main" } : state = JSON.parse(state);
 
-        if (state.page !== "Main" && state.page !== "Menu" && state.page !== "") articleID = state.page;(state);
+        if (state.page !== "Main" && state.page !== "Menu" && state.page !== "") articleID = state.page;
         let page = "";
 
         switch (state.page) {
