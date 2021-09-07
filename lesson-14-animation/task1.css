@@ -1,0 +1,45 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+.wrapper {
+  margin: 0 auto;
+  width: 600px;
+  height: 100vh;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+}
+.title {
+  display: flex;
+  margin-bottom: 30px;
+  font: arial, helvetica;
+  font-size: 35px;
+  align-items: center;
+}
+.btn {
+  width: 100px;
+  height: 35px;
+  margin-right: 100px;
+  font: arial, helvetica;
+  font-size: 24px;
+  background-color: lightgrey;
+}
+.area {
+  position: relative;
+  background-color: rgb(211, 252, 136);
+  border: solid green 1px;
+}
+#racket1 {
+  background-color: green;
+  position: absolute;
+}
+#racket2 {
+  background-color: blue;
+  position: absolute;
+}
+#ball {
+  background-color: darkred;
+  border-radius: 50%;
+  position: absolute;
+}
