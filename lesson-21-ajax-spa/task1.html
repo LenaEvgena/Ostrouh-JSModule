@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <style>
+    body {
+      margin: 2em auto;
+      width: 90%;
+      font-family: "Open Sans", serif;
+      font-size: 0.8em;
+    }
+    .manage{
+      display: flex;
+      flex-direction: column;
+      margin-right: 50px;
+    }
+    .drink-info {
+      margin: 0.5em auto;
+      width: 95%;
+      max-width: 320px;
+      color: black;
+    }
+    input {
+      margin: 0.5em auto;
+      padding: 0.5em 1em;
+      width: 95%;
+      max-width: 320px;
+      height: 50px;
+      border: 1px solid rgb(51, 59, 66);
+      color: black;
+      font-weight: bold;
+      background: rgb(129, 167, 167);
+      cursor: pointer;
+    }
+    input:hover {
+      color: #eee;
+    }
+  </style>
+
+</head>
+<body>
+  <div class="manage drinks">
+    <input type='button' value='Добавить напиток' onclick='addDrink()'>
+    <input type='button' value='Показать информацию о напитке' onclick='showDrinkInfo()'>
+    <input type='button' value='Удалить напиток' onclick='removeDrink()'>
+    <input type='button' value='Показать меню напитков' onclick='showDrinksMenu()'>
+    <div id="message" class="drink-info"></div>
+  </div>
+
+  <script src="AJAXStorage.js"></script>
+  <script>
+    'use strict';
+
+    var drinkStorage = new AJAXStorage();
+
+    function addDrink() {
+      var drinkName = prompt('Введите название напитка').toLowerCase().trim();
+      var Hash = {};
+
+      if (drinkName) {
+        Hash.alcohol = confirm('Ваш напиток алкогольный?') ? 'да' : 'нет';
+        Hash.recipe = prompt('Введите рецепт приготовления напитка');
+        return drinkStorage.addValue(drinkName, Hash);
+      } else {
+        alert('Ввод отменен!');
+      }
+    }
+
+    function showDrinkInfo() {
+      var drinkName = prompt('Введите название напитка:').toLowerCase().trim();
+      var getDrinkInfo = (drinkName) ? drinkStorage.getValue(drinkName) : 0;
+      var resultHTML = '';
+
+      if (getDrinkInfo) {
+        var print1 = 'Напиток: ' + drinkName + '<br>';
+        var print2 = 'Алкогольный: ' + getDrinkInfo.alcohol + '<br>';
+        var print3 = 'Рецепт приготовления: ' + getDrinkInfo.recipe + '<br>';
+
+        resultHTML = print1 + print2 + print3;
+      } else {
+        resultHTML = 'Ошибка! Нет такого напитка';
+      }
+      document.getElementById('message').innerHTML = resultHTML;
+    }
+
+    function removeDrink() {
+      var drinkName = prompt('Какой напиток удалить?').toLowerCase().trim();
+      var delDrinkInfo = drinkStorage.deleteValue(drinkName);
+      var resultHTML = '';
+
+      if (delDrinkInfo) {
+        resultHTML = 'Информация о напитке ' + drinkName + ' удалена';
+      } else {
+        resultHTML = 'Ошибка! Нет такого напитка';
+      }
+      document.getElementById('message').innerHTML = resultHTML;
+    }
+
+    function showDrinksMenu() {
+      var showMenuInfo = drinkStorage.getKeys();
+      var resultHTML = '';
+
+      if (showMenuInfo.length) {
+        for (var i = 0; i < showMenuInfo.length; i++) {
+          resultHTML += (i + 1) + '. ' + showMenuInfo[i] + '<br>';
+        }
+      } else {
+        resultHTML = 'Меню пустое, добавьте напитки.';
+      }
+      document.getElementById('message').innerHTML = resultHTML;
+    }
+  </script>
+</body>
+</html>
